@@ -9,10 +9,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 import java.util.List;
 
+/**
+ * ProjectManagerBackendApplication is the entry point for the Spring Boot application.
+ * It initializes the application and sets up initial roles in the database.
+ *
+ * Annotations:
+ * - @SpringBootApplication: Indicates a Spring Boot application.
+ * - @EnableAsync: Enables asynchronous processing.
+ * - @EnableJpaAuditing: Enables JPA Auditing.
+ */
 @SpringBootApplication
 @EnableAsync
 @EnableJpaAuditing
@@ -21,13 +29,18 @@ public class ProjectManagerBackendApplication {
 		SpringApplication.run(ProjectManagerBackendApplication.class, args);
 	}
 
-
-
 	@Value("${application.roles.rolenames}")
 	List<String> rolesNames;
 
 	@Value("${application.roles.roledescriptions}")
 	List<String> rolesDescriptions;
+
+	/**
+	 * CommandLineRunner bean to initialize roles in the database at startup.
+	 *
+	 * @param roleRepository the RoleRepository to interact with the Role entities.
+	 * @return a CommandLineRunner instance.
+	 */
 	@Bean
 	public CommandLineRunner commandLineRunner(RoleRepository roleRepository) {
 		return args -> {
@@ -39,11 +52,8 @@ public class ProjectManagerBackendApplication {
 						.name(rolesNames.get(i))
 						.description(rolesDescriptions.get(i))
 						.build();
-				role.setName(rolesNames.get(i));
-				role.setDescription(rolesDescriptions.get(i));
 				roleRepository.save(role);
 			}
 		};
 	}
-
 }

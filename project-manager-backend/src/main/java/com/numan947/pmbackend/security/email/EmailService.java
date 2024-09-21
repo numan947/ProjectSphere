@@ -15,6 +15,17 @@ import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * EmailService is a service class that handles the sending of account activation emails.
+ *
+ * Fields:
+ * - from: The email address from which the email is sent, injected from application properties.
+ * - mailSender: The JavaMailSender used to send the email.
+ * - templateEngine: The SpringTemplateEngine used to process the email template.
+ *
+ * Methods:
+ * - sendAccountActivationEmail: Sends an account activation email to the specified recipient.
+ */
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -23,29 +34,34 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
-    public void sendAccountActivationEmail( String to,
-                                            String name,
-                                            String activationUrl,
-                                            String activationCode,
-                                            String subject) throws MessagingException {
-
+    /**
+     * Sends an account activation email to the specified recipient.
+     *
+     * @param to The recipient's email address.
+     * @param name The recipient's name.
+     * @param activationUrl The URL for account activation.
+     * @param activationCode The activation code for account activation.
+     * @param subject The subject of the email.
+     * @throws MessagingException if an error occurs while sending the email.
+     */
+    public void sendAccountActivationEmail(String to, String name, String activationUrl, String activationCode, String subject) throws MessagingException {
         // Prepare the template using Thymeleaf -> email body
-        Map<String, Object>properties = Map.of(
-                "name",name,
-                "confirmationUrl",activationUrl,
-                "activationCode",activationCode
+        Map<String, Object> properties = Map.of(
+                "name", name,
+                "confirmationUrl", activationUrl,
+                "activationCode", activationCode
         );
         Context context = new Context();
         context.setVariables(properties);
-        String htmlBody = templateEngine.process(EmailTemplates.ACCOUNT_ACTIVATION_TEMPLATE,context);
+        String htmlBody = templateEngine.process(EmailTemplates.ACCOUNT_ACTIVATION_TEMPLATE, context);
 
         // Prepare the email
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        var helper = new MimeMessageHelper(mimeMessage,MimeMessageHelper.MULTIPART_MODE_MIXED,UTF_8.name());
+        var helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, UTF_8.name());
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setFrom(from);
-        helper.setText(htmlBody,true);
+        helper.setText(htmlBody, true);
 
         // Send the email
         mailSender.send(mimeMessage);

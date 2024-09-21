@@ -12,6 +12,31 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * User is an entity that represents a user in the system.
+ * It extends BaseEntity and implements UserDetails and Principal interfaces for Spring Security integration.
+ *
+ * Fields:
+ * - firstName: The first name of the user.
+ * - lastName: The last name of the user.
+ * - email: The unique email of the user.
+ * - password: The password of the user.
+ * - accountLocked: Indicates if the account is locked.
+ * - accountEnabled: Indicates if the account is enabled.
+ * - roles: A list of roles associated with the user.
+ * - numberOfProjects: The number of projects the user has.
+ *
+ * Annotations:
+ * - @Entity: Specifies that the class is an entity and is mapped to a database table.
+ * - @Table(name = "_users"): Specifies the name of the database table to be used for mapping.
+ * - @Column(unique = true): Specifies that the email column should have unique values.
+ * - @ManyToMany(fetch = FetchType.EAGER): Specifies a many-to-many relationship with the Role entity.
+ * - @Getter: Lombok annotation to generate getter methods for all fields.
+ * - @Setter: Lombok annotation to generate setter methods for all fields.
+ * - @AllArgsConstructor: Lombok annotation to generate a constructor with all fields as parameters.
+ * - @NoArgsConstructor: Lombok annotation to generate a no-argument constructor.
+ * - @Builder: Lombok annotation to implement the builder pattern for the class.
+ */
 @Getter
 @Setter
 @Builder
@@ -32,13 +57,9 @@ public class User extends BaseEntity implements UserDetails, Principal {
     private boolean accountEnabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role>roles;
+    private List<Role> roles;
 
-
-    // number of projects user has
     private Long numberOfProjects;
-
-
 
     @Override
     public String getName() {
@@ -47,7 +68,7 @@ public class User extends BaseEntity implements UserDetails, Principal {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream().map(role->new SimpleGrantedAuthority(role.getName())).toList();
+        return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).toList();
     }
 
     @Override
@@ -57,8 +78,7 @@ public class User extends BaseEntity implements UserDetails, Principal {
 
     @Override
     public String getUsername() {
-        // should return unique identifier
-        return email;
+        return email; // should return unique identifier
     }
 
     @Override
@@ -81,7 +101,7 @@ public class User extends BaseEntity implements UserDetails, Principal {
         return accountEnabled;
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 }

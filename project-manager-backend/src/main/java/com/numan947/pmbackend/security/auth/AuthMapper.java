@@ -10,10 +10,27 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * AuthMapper is a component that maps registration request data transfer objects to User entities.
+ *
+ * Fields:
+ * - passwordEncoder: The PasswordEncoder used to encode user passwords.
+ *
+ * Methods:
+ * - toUserForRegistration: Maps a RegistrationRequestDTO and a Role to a User entity.
+ */
 @Component
 @RequiredArgsConstructor
 public class AuthMapper {
     private final PasswordEncoder passwordEncoder;
+
+    /**
+     * Maps a RegistrationRequestDTO and a Role to a User entity.
+     *
+     * @param registrationRequestDTO The registration request data transfer object.
+     * @param userRole The role to be assigned to the user.
+     * @return The mapped User entity.
+     */
     public User toUserForRegistration(@Valid RegistrationRequestDTO registrationRequestDTO, Role userRole) {
         return User.builder()
                 .email(registrationRequestDTO.email())
@@ -26,5 +43,4 @@ public class AuthMapper {
                 .numberOfProjects(0L)
                 .build();
     }
-
 }

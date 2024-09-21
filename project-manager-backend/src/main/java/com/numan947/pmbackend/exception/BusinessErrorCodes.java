@@ -4,6 +4,28 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.*;
+/**
+ * BusinessErrorCodes is an enumeration that defines various business error codes and their associated HTTP status.
+ *
+ * Fields:
+ * - code: The unique code representing the error.
+ * - description: A brief description of the error.
+ * - httpStatus: The HTTP status associated with the error.
+ *
+ * Enum Constants:
+ * - NO_CODE: Represents a "Not Implemented" error with HTTP status 501 (NOT_IMPLEMENTED).
+ * - BAD_CREDENTIALS: Represents an "Incorrect credentials" error with HTTP status 400 (BAD_REQUEST).
+ * - NEW_PASSWORD_DOES_NOT_MATCH: Represents a "New password does not match" error with HTTP status 400 (BAD_REQUEST).
+ * - ACCOUNT_LOCKED: Represents an "Account is locked" error with HTTP status 423 (LOCKED).
+ * - ACCOUNT_DISABLED: Represents an "Account is disabled" error with HTTP status 403 (FORBIDDEN).
+ * - OPERATION_NOT_PERMITTED: Represents an "Operation not permitted" error with HTTP status 403 (FORBIDDEN).
+ * - ENTITY_NOT_FOUND: Represents an "Entity not found" error with HTTP status 404 (NOT_FOUND).
+ *
+ * Annotations:
+ * - @RequiredArgsConstructor: Lombok annotation to generate a constructor with required arguments.
+ * - @Getter: Lombok annotation to generate getter methods for all fields.
+ */
+
 
 @RequiredArgsConstructor
 @Getter

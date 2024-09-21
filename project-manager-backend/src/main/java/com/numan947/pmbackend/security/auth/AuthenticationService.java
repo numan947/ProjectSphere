@@ -23,6 +23,23 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
+/**
+ * AuthenticationService is a service class that handles user authentication-related operations.
+ *
+ * Fields:
+ * - roleRepository: Repository for user roles.
+ * - userRepository: Repository for user data.
+ * - tokenRepository: Repository for token data.
+ * - jwtService: Service for handling JWT operations.
+ * - authenticationManager: Manager for authentication operations.
+ * - authMapper: Mapper for authentication-related data.
+ * - emailService: Service for sending emails.
+ * - activationUrl: URL for account activation, injected from application properties.
+ * - activationCodeLength: Length of the activation code, injected from application properties.
+ * - activationCodeExpirationTime: Expiration time of the activation code, injected from application properties.
+ * - activationCodeCharacters: Characters used for generating the activation code, injected from application properties.
+ * - activationCodeSubject: Subject of the activation email, injected from application properties.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -31,10 +48,8 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
-
     private final AuthMapper authMapper;
     private final EmailService emailService;
-
 
     @Value("${application.security.mailing.frontend.activation-url:http://localhost:8080/auth/activate}")
     private String activationUrl;
@@ -47,10 +62,15 @@ public class AuthenticationService {
     @Value("${application.security.mailing.frontend.activation-code-subject:Activate your account}")
     private String activationCodeSubject;
 
-
+    /**
+     * Registers a new user.
+     *
+     * @param registrationRequestDTO The registration request data transfer object.
+     * @throws MessagingException if an error occurs while sending the activation email.
+     */
     @Transactional
     public void registerUser(@Valid RegistrationRequestDTO registrationRequestDTO) throws MessagingException {
-        var userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() ->  new RuntimeException("ROLE_USER not found in role repository")); // TODO: ADD CUSTOM EXCEPTION
+        var userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new RuntimeException("ROLE_USER not found in role repository")); // TODO: ADD CUSTOM EXCEPTION
         // check if user already exists
         if (userRepository.findByEmail(registrationRequestDTO.email()).isPresent()) {
             throw new RuntimeException("User with email " + registrationRequestDTO.email() + " already exists"); // TODO: ADD CUSTOM EXCEPTION
@@ -72,9 +92,6 @@ public class AuthenticationService {
         );
     }
 
-
-
-
     // private methods
     private String generateAndSaveActivationToken(User user) {
         String generatedToken = generateActivationCode(activationCodeLength);
@@ -87,6 +104,7 @@ public class AuthenticationService {
         tokenRepository.save(token);
         return generatedToken;
     }
+
     private String generateActivationCode(Integer codeLength) {
         StringBuilder code = new StringBuilder();
         SecureRandom random = new SecureRandom();
@@ -96,7 +114,12 @@ public class AuthenticationService {
         return code.toString();
     }
 
-
+    /**
+     * Logs in a user.
+     *
+     * @param request The login request data transfer object.
+     * @return A LoginResponseDTO containing the login response data.
+     */
     public LoginResponseDTO login(@Valid LoginRequestDTO request) {
         var auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         var claims = new HashMap<String, Object>();
@@ -111,6 +134,11 @@ public class AuthenticationService {
         );
     }
 
+    /**
+     * Activates a user account.
+     *
+     * @param activationCode The activation code.
+     */
     @Transactional
     public void activateAccount(String activationCode) {
         var token = tokenRepository.findByToken(activationCode).orElseThrow(() -> new RuntimeException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
@@ -124,6 +152,12 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
 
+    /**
+     * Resends the activation email.
+     *
+     * @param email The email address to which the activation email is sent.
+     * @throws MessagingException if an error occurs while sending the activation email.
+     */
     public void resendActivation(String email) throws MessagingException {
         var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")); // TODO: ADD CUSTOM EXCEPTION
         if (user.isAccountEnabled()) {

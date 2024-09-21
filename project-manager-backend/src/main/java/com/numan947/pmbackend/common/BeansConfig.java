@@ -17,6 +17,28 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
+/**
+ * BeansConfig is a configuration class that defines various beans for the application.
+ * It includes beans for CORS configuration, authentication provider, password encoder, and authentication manager.
+ *
+ * Fields:
+ * - allowedOrigins: A list of allowed origins for CORS, injected from application properties.
+ * - userDetailsService: A service for loading user-specific data, injected via constructor.
+ *
+ * Methods:
+ * - corsFilter(): Configures and returns a CorsFilter bean.
+ * - authProvider(): Configures and returns an AuthenticationProvider bean.
+ * - passwordEncoder(): Configures and returns a PasswordEncoder bean.
+ * - authenticationManager(AuthenticationConfiguration config): Configures and returns an AuthenticationManager bean.
+ *
+ * Annotations:
+ * - @Configuration: Indicates that this class contains bean definitions.
+ * - @RequiredArgsConstructor: Lombok annotation to generate a constructor with required arguments.
+ * - @Value: Injects values from application properties.
+ * - @Bean: Indicates that a method produces a bean to be managed by the Spring container.
+ */
+
+
 @Configuration
 @RequiredArgsConstructor
 public class BeansConfig {
