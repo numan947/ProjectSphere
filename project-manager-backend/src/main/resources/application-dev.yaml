@@ -1,3 +1,4 @@
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/mydb
@@ -12,7 +13,7 @@ spring:
       hibernate:
         format_sql: true
     database: mysql
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
 
   mail:
     host: localhost
@@ -27,21 +28,30 @@ spring:
             enable: true
 
 application:
-#  file:
-#    uploads:
-#      photos-directory: ./uploads
-#  security:
-#    jwt:
-#      secret-key: 63FDD813AA2A9922746B3EA81DCC1ABCDEFFEDCBA99999FFFDDDEEFF9999FFDDABCDEF
-#      expiration: 86400000
-#    mailing:
-#      frontend:
-#        activation-url: http://localhost:4200/activate-account
-#        activation-code-length: 6 # in characters
-#        activation-code-expiration: 15 # in minutes
-#        activation-code-characters: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
-#        activation-code-subject: Activate your account
-#    cors:
-#      origins: http://localhost:4200,http://localhost:8080
+  roles:
+    rolenames: ROLE_USER,ROLE_ADMIN
+    roledescriptions: User,Admin
+  file:
+    uploads:
+      photos-directory: ./uploads
+  security:
+    jwt:
+      secret: 9db9e39a0dd9c5c2c5b367c6766620a42a9ff9a58f70a5b811601fa0ce9d8780
+      expiration: 86400000 # in milliseconds
+    mailing:
+      frontend:
+        sender: contact@app.com
+        activation-url: http://localhost:4200/auth/activate
+        activation-code-length: 6 # in characters
+        activation-code-expiration: 15 # in minutes
+        activation-code-characters: 0123456789
+        activation-code-subject: Activate your account
+    cors:
+      origins: http://localhost:4200,http://localhost:8080
 server:
   port: 9999
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
