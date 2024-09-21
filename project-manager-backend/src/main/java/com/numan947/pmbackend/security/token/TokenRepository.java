@@ -15,5 +15,5 @@ import java.util.Optional;
  * - @Repository: Indicates that the interface is a Spring Data repository.
  */
 public interface TokenRepository extends JpaRepository<Token, String> {
-    Optional<Token> findByToken(String token);
+    Optional<Token> findByTokenAndType(String token, String type);
 }

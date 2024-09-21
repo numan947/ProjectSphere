@@ -4,13 +4,16 @@ import com.numan947.pmbackend.role.RoleRepository;
 import com.numan947.pmbackend.security.auth.dto.LoginRequestDTO;
 import com.numan947.pmbackend.security.auth.dto.LoginResponseDTO;
 import com.numan947.pmbackend.security.auth.dto.RegistrationRequestDTO;
+import com.numan947.pmbackend.security.auth.dto.ResetPasswordRequestDTO;
 import com.numan947.pmbackend.security.email.EmailService;
 import com.numan947.pmbackend.security.jwt.JWTService;
 import com.numan947.pmbackend.security.token.Token;
 import com.numan947.pmbackend.security.token.TokenRepository;
+import com.numan947.pmbackend.security.token.TokenTypes;
 import com.numan947.pmbackend.user.User;
 import com.numan947.pmbackend.user.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +64,10 @@ public class AuthenticationService {
     private String activationCodeCharacters;
     @Value("${application.security.mailing.frontend.activation-code-subject:Activate your account}")
     private String activationCodeSubject;
+    @Value("${application.security.mailing.frontend.reset-url:http://localhost:8080/auth/reset}")
+    private String resetUrl;
+    @Value("${application.security.mailing.frontend.reset-subject:Reset your password}")
+    private String resetSubject;
 
     /**
      * Registers a new user.
@@ -80,7 +87,7 @@ public class AuthenticationService {
         userRepository.save(user);
 
         // create and save activation code
-        var activationCode = generateAndSaveActivationToken(user);
+        var activationCode = generateAndSaveActivationToken(user, TokenTypes.ACTIVATION);
 
         // send activation email
         emailService.sendAccountActivationEmail(
@@ -93,10 +100,11 @@ public class AuthenticationService {
     }
 
     // private methods
-    private String generateAndSaveActivationToken(User user) {
+    private String generateAndSaveActivationToken(User user, TokenTypes type) {
         String generatedToken = generateActivationCode(activationCodeLength);
         var token = Token.builder()
                 .token(generatedToken)
+                .type(type.toString())
                 .creationTime(LocalDateTime.now())
                 .expirationTime(LocalDateTime.now().plusMinutes(activationCodeExpirationTime))
                 .user(user)
@@ -141,7 +149,7 @@ public class AuthenticationService {
      */
     @Transactional
     public void activateAccount(String activationCode) {
-        var token = tokenRepository.findByToken(activationCode).orElseThrow(() -> new RuntimeException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
+        var token = tokenRepository.findByTokenAndType(activationCode, TokenTypes.ACTIVATION.toString()).orElseThrow(() -> new RuntimeException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
         if (token.getExpirationTime().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Token expired"); // TODO: ADD CUSTOM EXCEPTION
         }
@@ -166,7 +174,7 @@ public class AuthenticationService {
 
         // TODO: May be a good idea to expire old tokens before creating a new one
         // create and save activation code
-        var activationCode = generateAndSaveActivationToken(user);
+        var activationCode = generateAndSaveActivationToken(user, TokenTypes.ACTIVATION);
         // send activation email
         emailService.sendAccountActivationEmail(
                 user.getEmail(),
@@ -174,6 +182,38 @@ public class AuthenticationService {
                 activationUrl,
                 activationCode,
                 activationCodeSubject
+        );
+    }
+
+    public void forgotPassword(String email) throws MessagingException {
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found")); // TODO: ADD CUSTOM EXCEPTION
+        // create and save password reset token
+        var passwordResetToken = generateAndSaveActivationToken(user, TokenTypes.PASSWORD_RESET);
+        // send password reset email
+        emailService.sendPasswordResetEmail(
+                user.getEmail(),
+                user.getFullName(),
+                resetUrl,
+                passwordResetToken,
+                resetSubject
+        );
+    }
+
+    public void resetPassword(ResetPasswordRequestDTO resetRequest) throws MessagingException {
+        var token = tokenRepository.findByTokenAndType(resetRequest.resetcode(), TokenTypes.PASSWORD_RESET.toString()).orElseThrow(() -> new RuntimeException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
+        if (token.getExpirationTime().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Token expired"); // TODO: ADD CUSTOM EXCEPTION
+        }
+        var user = userRepository.findById(token.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found")); // TODO: ADD CUSTOM EXCEPTION
+        user.setPassword(authMapper.encodePassword(resetRequest.password()));
+        userRepository.save(user);
+        token.setValidationTime(LocalDateTime.now());
+        tokenRepository.save(token);
+
+        emailService.sendPasswordResetCompleteEmail(
+                user.getEmail(),
+                user.getFullName(),
+                "Password reset complete"
         );
     }
 }

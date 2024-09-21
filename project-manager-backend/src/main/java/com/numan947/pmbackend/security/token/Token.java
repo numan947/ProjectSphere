@@ -44,6 +44,7 @@ public class Token extends BaseEntity {
     private LocalDateTime creationTime; // date of creation
     private LocalDateTime expirationTime; // date of expiration
     private LocalDateTime validationTime; // date of validation
+    private String type; // type of token, can be verification, activation, or password reset
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")

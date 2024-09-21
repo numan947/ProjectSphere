@@ -43,4 +43,8 @@ public class AuthMapper {
                 .numberOfProjects(0L)
                 .build();
     }
+
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
 }

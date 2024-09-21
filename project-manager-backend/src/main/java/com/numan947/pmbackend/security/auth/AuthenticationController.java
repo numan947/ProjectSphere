@@ -3,6 +3,7 @@ package com.numan947.pmbackend.security.auth;
 import com.numan947.pmbackend.security.auth.dto.LoginRequestDTO;
 import com.numan947.pmbackend.security.auth.dto.LoginResponseDTO;
 import com.numan947.pmbackend.security.auth.dto.RegistrationRequestDTO;
+import com.numan947.pmbackend.security.auth.dto.ResetPasswordRequestDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -57,7 +58,7 @@ public class AuthenticationController {
      * @param activationCode The activation code.
      * @return A ResponseEntity indicating the result of the activation.
      */
-    @PostMapping("/activate")
+    @GetMapping("/activate")
     public ResponseEntity<?> activate(@RequestParam("activation-code") String activationCode) {
         authenticationService.activateAccount(activationCode);
         return ResponseEntity.accepted().build();
@@ -75,4 +76,19 @@ public class AuthenticationController {
         authenticationService.resendActivation(email);
         return ResponseEntity.accepted().build();
     }
+
+
+    @GetMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam("email") String email) throws MessagingException {
+        authenticationService.forgotPassword(email);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequestDTO resetRequest) throws MessagingException {
+        authenticationService.resetPassword(resetRequest);
+        return ResponseEntity.accepted().build();
+    }
+
+
 }

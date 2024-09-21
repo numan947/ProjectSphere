@@ -54,16 +54,41 @@ public class EmailService {
         Context context = new Context();
         context.setVariables(properties);
         String htmlBody = templateEngine.process(EmailTemplates.ACCOUNT_ACTIVATION_TEMPLATE, context);
+        prepareAndSend(to, subject, htmlBody);
+    }
 
-        // Prepare the email
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        var helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, UTF_8.name());
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setFrom(from);
-        helper.setText(htmlBody, true);
+    public void sendPasswordResetEmail(String to, String name, String resetUrl, String resetCode, String subject) throws MessagingException {
+        // Prepare the template using Thymeleaf -> email body
+        Map<String, Object> properties = Map.of(
+                "name", name,
+                "resetUrl", resetUrl,
+                "resetCode", resetCode
+        );
+        Context context = new Context();
+        context.setVariables(properties);
+        String htmlBody = templateEngine.process(EmailTemplates.PASSWORD_RESET_TEMPLATE, context);
+        prepareAndSend(to, subject, htmlBody);
+    }
+    public void sendPasswordResetCompleteEmail(String email, String fullName, String subject) throws MessagingException {
+        // Prepare the template using Thymeleaf -> email body
+        Map<String, Object> properties = Map.of(
+                "name", fullName
+        );
+        Context context = new Context();
+        context.setVariables(properties);
+        String htmlBody = templateEngine.process(EmailTemplates.PASSWORD_RESET_COMPLETE_TEMPLATE, context);
+        prepareAndSend(email, subject, htmlBody);
+    }
 
-        // Send the email
-        mailSender.send(mimeMessage);
+    private void prepareAndSend(String to, String subject, String htmlBody) throws MessagingException {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            var helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, UTF_8.name());
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setFrom(from);
+            helper.setText(htmlBody, true);
+            // Send the email
+            mailSender.send(mimeMessage);
+
     }
 }
