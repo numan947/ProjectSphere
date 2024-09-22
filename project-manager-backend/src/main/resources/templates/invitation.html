@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Confirmation</title>
+    <title>Project Invitation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -76,7 +76,7 @@
     <h1>You have been invited!</h1>
     <p>Hello!!</p>
 
-    <p>You have been invited to join the project titled: <span class="property-value">[[{{$projectName}}]]</span></p>
+    <p>You have been invited to join the project titled: <span class="property-value">[[${projectName}]]</span></p>
 
     <a th:href="${invitationAcceptURL}" class="button" target="_blank">Accept Invitation</a>
 

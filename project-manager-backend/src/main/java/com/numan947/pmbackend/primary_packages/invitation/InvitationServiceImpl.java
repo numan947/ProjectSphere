@@ -94,7 +94,7 @@ public class InvitationServiceImpl implements InvitationService{
 
         project.getTeamMembers().add(user); // add the user to the project
 //        project.getChat().getMembers().add(user); // add the user to the chat
-        userService.updateProjectSize(user.getId(), true); // update the project size of the user
+//        userService.updateProjectSize(user.getId(), true); // update the project size of the user
         projectService.updateProject(project); // save the project
         invitation.setAcceptedDate(LocalDateTime.now());
         invitationRepository.save(invitation);// save the invitation

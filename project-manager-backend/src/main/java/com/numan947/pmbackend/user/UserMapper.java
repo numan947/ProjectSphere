@@ -16,6 +16,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class UserMapper {
+
+    public UserResponse toBriefUserResponse(User user){
+        return UserResponse.builder()
+                .id(user.getId())
+                .fullName(user.getFirstName() + " " + user.getLastName())
+                .build();
+    }
     public UserResponse toUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
@@ -45,6 +52,20 @@ public class UserMapper {
                 .ownProjects(new ArrayList<>())
                 .teamProjects(new ArrayList<>())
                 .build();
+
+        if(ownProjects != null) {
+            tmp.getOwnProjects().addAll(ownProjects);
+        }
+        if(otherProject != null) {
+            tmp.getTeamProjects().addAll(otherProject);
+        }
+        if(createdIssues != null) {
+            tmp.getCreatedIssues().addAll(createdIssues);
+        }
+        if(assignedIssues != null) {
+            tmp.getAssignedIssues().addAll(assignedIssues);
+        }
+
         return tmp;
     }
 }

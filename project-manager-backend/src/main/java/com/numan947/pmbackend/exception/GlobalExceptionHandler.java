@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -136,6 +139,47 @@ public class GlobalExceptionHandler {
                 )
         );
     }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(HandlerMethodValidationException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponseDTO(
+                        null,
+                        null,
+                        exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(HttpRequestMethodNotSupportedException exp) {
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(
+                new ExceptionResponseDTO(
+                        null,
+                        null,
+                        exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(MissingServletRequestParameterException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponseDTO(
+                        null,
+                        null,
+                        exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+
 
     /**
      * Handles OperationNotPermittedException and returns a response with HTTP status 403 (FORBIDDEN).

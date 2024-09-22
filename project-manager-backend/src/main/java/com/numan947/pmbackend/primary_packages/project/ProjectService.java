@@ -26,6 +26,7 @@ public interface ProjectService {
 
 
     List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size);
+    List<ProjectShortResponse> getAllTeamProjectsOfUser(Authentication auth);
 
 
     // these methods are used from other services
@@ -33,6 +34,5 @@ public interface ProjectService {
     Optional<Project> findProjectById(String projectId);
     void updateProject(Project project);
     boolean isUserPartOfProject(String userId, String projectId);
-
-    List<ProjectResponse> getAllTeamProjectsOfUser(String userId);
+    List<ProjectShortResponse> getAllOwnProjects(Authentication auth);
 }

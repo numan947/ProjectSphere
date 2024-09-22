@@ -19,7 +19,7 @@ public class InvitationController {
     private final InvitationService invitationService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createInvitation(
+    public ResponseEntity<?> createInvitation( // tested
             @RequestParam("project-id") @NotEmpty @NotNull @NotBlank String projectId,
             @RequestParam("user-email") @Email @NotBlank @NotEmpty @NotNull String userEmail,
             Authentication auth) throws MessagingException {
@@ -27,7 +27,7 @@ public class InvitationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/delete") // TODO: May be a better way is to just pass email and project id
     public ResponseEntity<?> deleteInvitation(@RequestParam("invitation-code") String invitationCode, @RequestParam("project-id") String projectId, Authentication auth) {
         invitationService.deleteInvitation(projectId, invitationCode, auth);
         return ResponseEntity.ok().build();

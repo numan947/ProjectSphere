@@ -67,10 +67,14 @@ public class User extends BaseEntity implements UserDetails, Principal {
 
     @JsonIgnore
     @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL)
-    private List<Issue>assignedIssues;
+    private List<Issue>assignedIssues; // all issues assigned to the user or created by the user
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
+    private List<Issue>createdIssues; // all issues created by the user
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Project>projects;
+    private List<Project>projects; // all projects that the user is a part of -> own projects + team projects
 
     @Override
     public String getName() {

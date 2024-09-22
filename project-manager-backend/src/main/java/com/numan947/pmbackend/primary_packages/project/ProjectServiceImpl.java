@@ -5,6 +5,7 @@ import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectRequest;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectShortResponse;
 import com.numan947.pmbackend.user.User;
+import com.numan947.pmbackend.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,17 +20,21 @@ import java.util.Optional;
 @Service
 public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
+    private final UserService userService;
     private final ProjectMapper projectMapper;
 
     @Override
     public ProjectShortResponse createProject(ProjectRequest projectRequest, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
-        // create project
+        // set the primitive and regular fields from the request
         Project project = projectMapper.toProject(projectRequest);
-        project.setOwner(user);
-        project.getTeamMembers().add(user);
+        // set the owner and team members
+        project.setOwner(user); // set the owner of the project
+        project.getTeamMembers().add(user); // add the owner to the team members
         projectRepository.save(project);
-        return projectMapper.toProjectShortResponse(project);
+
+        userService.addProjectToUser(user.getId(), project); // add the project to the user
+        return projectMapper.toProjectShortResponse(project); // list item response for the newly created project
     }
 
 
@@ -68,10 +73,11 @@ public class ProjectServiceImpl implements ProjectService{
         User user = (User) connectedUser.getPrincipal();
         Project project = projectRepository.findById(projectId).
                 orElseThrow(() -> new EntityNotFoundException("Project not found"));
-        if(!project.getOwner().equals(user)){
+        if(!project.getOwner().getId().equals(user.getId())){
             throw new OperationNotPermittedException("User is not the owner of this project");
         }
-        projectRepository.delete(project);
+        userService.removeProjectFromUser(user.getId(), project); // remove the project from the user
+        projectRepository.delete(project); // delete the project
     }
 
     @Override
@@ -134,8 +140,15 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public List<ProjectResponse> getAllTeamProjectsOfUser(String userId) {
-        var tmp = projectRepository.findAllTeamProjectsByUserId(userId);
-        return tmp.stream().map(projectMapper::toProjectResponse).toList();
+    public List<ProjectShortResponse> getAllTeamProjectsOfUser(Authentication auth) {
+        User user = (User) auth.getPrincipal();
+        return projectRepository.findAllTeamProjectsByUserId(user.getId()).stream().map(projectMapper::toProjectShortResponse).toList();
+    }
+
+    @Override
+    public List<ProjectShortResponse> getAllOwnProjects(Authentication auth) {
+        User user = (User) auth.getPrincipal();
+        List<Project> projects = projectRepository.findAllByOwnerId(user.getId());
+        return projects.stream().map(projectMapper::toProjectShortResponse).toList();
     }
 }

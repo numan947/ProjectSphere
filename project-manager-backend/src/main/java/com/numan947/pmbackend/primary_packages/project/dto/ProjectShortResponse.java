@@ -1,5 +1,6 @@
 package com.numan947.pmbackend.primary_packages.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.numan947.pmbackend.user.dto.UserResponse;
 import lombok.*;
 
@@ -29,7 +30,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-// DATA TRANSFER OBJECT
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProjectShortResponse {
     private String id;
     private String name;

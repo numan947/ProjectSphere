@@ -18,7 +18,7 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
                                                                                                             // this query is inefficient -- make it efficient
     List<Project> findAllByTeamMembersContainingOrOwnerId(String memberId, String ownerId);
 
-    @Query("SELECT p FROM Project p JOIN p.teamMembers m WHERE m.id = :memberId AND p.name LIKE %:nameKey% OR p.description LIKE %:descriptionKey%")
+    @Query("SELECT p FROM Project p JOIN p.teamMembers m WHERE m.id = :memberId AND (LOWER(p.name) LIKE LOWER(CONCAT('%', :nameKey, '%')) OR LOWER(p.description) LIKE LOWER(CONCAT('%', :descriptionKey, '%')))")
     List<Project>findAllByNameContainingOrDescriptionContaining(String nameKey, String descriptionKey, String memberId);
 
     @Query("SELECT p FROM Project p WHERE p.owner.id = :ownerId AND p.id = :projectId")
@@ -27,4 +27,7 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
 
     @Query("SELECT p FROM Project p JOIN p.teamMembers m WHERE m.id = :userId AND p.owner.id != :userId")
     List<Project> findAllTeamProjectsByUserId(String userId);
+
+    @Query("SELECT p FROM Project p WHERE p.owner.id = :id")
+    List<Project> findAllByOwnerId(String id);
 }

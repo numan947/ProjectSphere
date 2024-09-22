@@ -39,12 +39,11 @@ public class ProjectMapper {
         return ProjectShortResponse.builder()
                 .id(project.getId())
                 .name(project.getName())
-                .description(project.getDescription())
                 .category(project.getCategory())
                 .tags(project.getTags())
                 .memberCount(project.getTeamMembers().size())
                 .issueCount(project.getIssues().size())
-                .owner(userMapper.toUserResponse(project.getOwner()))
+                .owner(userMapper.toBriefUserResponse(project.getOwner()))
                 .build();
     }
 
@@ -56,8 +55,18 @@ public class ProjectMapper {
                 .category(project.getCategory())
                 .tags(project.getTags())
                 .issues(project.getIssues().stream().map(issueMapper::toIssueResponse).toList())
-                .teamMembers(project.getTeamMembers().stream().map(userMapper::toUserResponse).toList())
-                .owner(userMapper.toUserResponse(project.getOwner()))
+                .teamMembers(project.getTeamMembers().stream().map(userMapper::toBriefUserResponse).toList())
+                .owner(userMapper.toBriefUserResponse(project.getOwner()))
+                .build();
+    }
+
+    public ProjectResponse toBriefProjectResponse(Project project) {
+        return ProjectResponse.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .category(project.getCategory())
+                .tags(project.getTags())
+                .owner(userMapper.toBriefUserResponse(project.getOwner()))
                 .build();
     }
 }

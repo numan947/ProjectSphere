@@ -25,7 +25,6 @@ public class Issue extends BaseEntity {
     private String status;
     private String priority;
     private LocalDate dueDate;
-    private String createdBy; // user id of the user who created the issue
 
     @ElementCollection
     @CollectionTable(name = "_issue_tags", joinColumns = @JoinColumn(name = "issue_id"))
@@ -33,6 +32,8 @@ public class Issue extends BaseEntity {
 
     @ManyToOne
     private User assignedUser;
+    @ManyToOne
+    private User createdBy;
 
     @ManyToOne
     @JsonIgnore
