@@ -2,7 +2,7 @@ name: Backend Pipeline CI/CD
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - '/project-manager-backend/**'
       - '/docker/backend/Dockerfile'
