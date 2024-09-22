@@ -16,10 +16,8 @@ ARG APP_NAME=missing_app_name
 ARG APP_VERSION=missing_version
 ARG PORT=missing_port
 
-
 ENV JAR_NAME=${APP_NAME}
 ENV VERSION=${APP_VERSION}
-
 
 ENV PROFILE=missing_profile
 ENV APP_PORT=${PORT}
