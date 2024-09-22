@@ -1,6 +1,8 @@
 package com.numan947.pmbackend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.numan947.pmbackend.common.BaseEntity;
+import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -59,7 +61,15 @@ public class User extends BaseEntity implements UserDetails, Principal {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
+
+    //  Project related fields
     private Long numberOfProjects;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "assignedUser", cascade = CascadeType.ALL)
+    private List<Issue>assignedIssues;
+
+
 
     @Override
     public String getName() {

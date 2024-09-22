@@ -2,10 +2,7 @@ package com.numan947.pmbackend.security.token;
 
 import com.numan947.pmbackend.common.BaseEntity;
 import com.numan947.pmbackend.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;

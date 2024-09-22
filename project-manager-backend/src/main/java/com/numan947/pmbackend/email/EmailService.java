@@ -1,4 +1,4 @@
-package com.numan947.pmbackend.security.email;
+package com.numan947.pmbackend.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -79,7 +78,18 @@ public class EmailService {
         String htmlBody = templateEngine.process(EmailTemplates.PASSWORD_RESET_COMPLETE_TEMPLATE, context);
         prepareAndSend(email, subject, htmlBody);
     }
-
+    public void sendInvitationEmail(String userEmail, String invitationCode, String projectName, String invitationAcceptURL) throws MessagingException {
+        // Prepare the template using Thymeleaf -> email body
+        Map<String, Object> properties = Map.of(
+                "projectName", projectName,
+                "invitationCode", invitationCode,
+                "invitationAcceptURL",invitationAcceptURL
+        );
+        Context context = new Context();
+        context.setVariables(properties);
+        String htmlBody = templateEngine.process(EmailTemplates.INVITATION_TEMPLATE, context);
+        prepareAndSend(userEmail, "Invitation to Project: "+projectName, htmlBody);
+    }
     private void prepareAndSend(String to, String subject, String htmlBody) throws MessagingException {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             var helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED, UTF_8.name());
@@ -91,4 +101,6 @@ public class EmailService {
             mailSender.send(mimeMessage);
 
     }
+
+
 }

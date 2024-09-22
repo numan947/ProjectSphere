@@ -5,7 +5,7 @@ import com.numan947.pmbackend.security.auth.dto.LoginRequestDTO;
 import com.numan947.pmbackend.security.auth.dto.LoginResponseDTO;
 import com.numan947.pmbackend.security.auth.dto.RegistrationRequestDTO;
 import com.numan947.pmbackend.security.auth.dto.ResetPasswordRequestDTO;
-import com.numan947.pmbackend.security.email.EmailService;
+import com.numan947.pmbackend.email.EmailService;
 import com.numan947.pmbackend.security.jwt.JWTService;
 import com.numan947.pmbackend.security.token.Token;
 import com.numan947.pmbackend.security.token.TokenRepository;
