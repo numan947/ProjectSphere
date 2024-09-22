@@ -8,5 +8,5 @@ public interface InvitationService {
 
     void acceptInvitation(String projectId, String invitationCode, Authentication auth);
 
-    void deleteInvitation(String projectId, String invitationCode, Authentication auth);
+    void removeMemberFromProject(String projectId, String userId, Authentication auth);
 }

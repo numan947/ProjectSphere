@@ -27,15 +27,18 @@ public class InvitationController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/delete") // TODO: May be a better way is to just pass email and project id
-    public ResponseEntity<?> deleteInvitation(@RequestParam("invitation-code") String invitationCode, @RequestParam("project-id") String projectId, Authentication auth) {
-        invitationService.deleteInvitation(projectId, invitationCode, auth);
+    @PostMapping("/accept/{project-id}") // tested
+    public ResponseEntity<?> acceptInvitation(@PathVariable("project-id") String projectId, @RequestParam("invitation-code") String invitationCode, Authentication auth) {
+        invitationService.acceptInvitation(projectId, invitationCode, auth);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/accept/{project-id}")
-    public ResponseEntity<?> acceptInvitation(@PathVariable("project-id") String projectId, @RequestParam("invitation-code") String invitationCode, Authentication auth) {
-        invitationService.acceptInvitation(projectId, invitationCode, auth);
+    @PostMapping("/remove") // tested
+    public ResponseEntity<?> removeMemberFromProject(
+            @RequestParam("project-id") String projectId,
+            @RequestParam("user-id") String userId,
+            Authentication auth) {
+        invitationService.removeMemberFromProject(projectId, userId, auth);
         return ResponseEntity.ok().build();
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +26,13 @@ public class UserServiceImpl implements UserService{
     private final IssueMapper issueMapper;
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
-    public User findByUserId(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+    public Optional<User> findByUserId(String userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void removeProjectFromUser(String userId, Project project) {
         User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
-        user.getProjects().remove(project);
+        user.getProjects().removeIf(p -> p.getId().equals(project.getId()));
         user.setNumberOfProjects(user.getNumberOfProjects() - 1);
         userRepository.save(user);
     }

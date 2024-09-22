@@ -1,7 +1,6 @@
 package com.numan947.pmbackend.primary_packages.invitation;
 
 import com.numan947.pmbackend.common.BaseEntity;
-import com.numan947.pmbackend.primary_packages.project.Project;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,5 +22,6 @@ public class Invitation extends BaseEntity {
     private String projectId;
     private String projectName;
     private LocalDateTime expiryDate;
-    private LocalDateTime acceptedDate;
+    private LocalDateTime joinDate;
+    private LocalDateTime leaveDate;
 }

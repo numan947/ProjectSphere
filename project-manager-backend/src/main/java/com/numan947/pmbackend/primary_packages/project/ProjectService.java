@@ -20,10 +20,6 @@ public interface ProjectService {
 
     ProjectShortResponse updateProject(ProjectRequest projectRequest, Authentication connectedUser);
 
-    void addMemberToProject(String projectId, String memberId, Authentication connectedUser);
-
-    void removeMemberFromProject(String projectId, String memberId, Authentication connectedUser);
-
 
     List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size);
     List<ProjectShortResponse> getAllTeamProjectsOfUser(Authentication auth);
@@ -35,4 +31,7 @@ public interface ProjectService {
     void updateProject(Project project);
     boolean isUserPartOfProject(String userId, String projectId);
     List<ProjectShortResponse> getAllOwnProjects(Authentication auth);
+    void addTeamMemberToProject(String projectId, String memberId);
+    void removeMemberFromProject(String projectId, String memberId);
+
 }

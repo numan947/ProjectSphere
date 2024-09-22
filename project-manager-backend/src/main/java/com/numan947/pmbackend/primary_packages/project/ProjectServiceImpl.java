@@ -100,16 +100,6 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void addMemberToProject(String projectId, String memberId, Authentication connectedUser) {
-
-    }
-
-    @Override
-    public void removeMemberFromProject(String projectId, String memberId, Authentication connectedUser) {
-
-    }
-
-    @Override
     public List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size) {
         // TODO: Implement pagination later here
         User user = (User) connectedUser.getPrincipal();
@@ -150,5 +140,40 @@ public class ProjectServiceImpl implements ProjectService{
         User user = (User) auth.getPrincipal();
         List<Project> projects = projectRepository.findAllByOwnerId(user.getId());
         return projects.stream().map(projectMapper::toProjectShortResponse).toList();
+    }
+
+    @Override
+    public void addTeamMemberToProject(String projectId, String memberId) {
+        // validate project and user
+        Project project = projectRepository.findProjectById(projectId).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        ); // check if the project exists
+        User user = userService.findByUserId(memberId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if (project.getTeamMembers().stream().anyMatch(member -> member.getId().equals(memberId))) {
+            throw new OperationNotPermittedException("User is already a member of the project");
+        } // check if the user is already a member of the project -> this also checks if the user is the owner of the project because the owner is also a member
+
+        project.getTeamMembers().add(user);
+        projectRepository.save(project);
+        userService.addProjectToUser(memberId, project);
+    }
+
+    @Override
+    public void removeMemberFromProject(String projectId, String memberId) {
+        Project project = projectRepository.findProjectById(projectId).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        ); // check if the project exists
+        User user = userService.findByUserId(memberId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if (project.getOwner().getId().equals(memberId)) {
+            throw new OperationNotPermittedException("Owner cannot be removed from the project");
+        } // check if the user is the owner of the project
+
+        if (project.getTeamMembers().stream().noneMatch(member -> member.getId().equals(memberId))) {
+            throw new OperationNotPermittedException("User is not a member of the project");
+        } // check if the user is a member of the project
+
+        project.getTeamMembers().removeIf(member -> member.getId().equals(memberId));
+        projectRepository.save(project);
+        userService.removeProjectFromUser(memberId, project);
     }
 }
