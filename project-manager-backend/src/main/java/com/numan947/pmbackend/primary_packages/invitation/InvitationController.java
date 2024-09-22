@@ -1,5 +1,6 @@
 package com.numan947.pmbackend.primary_packages.invitation;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/invitation")
+@Tag(name = "Invitation", description = "Endpoints for managing invitations to projects.")
 public class InvitationController {
     private final InvitationService invitationService;
 

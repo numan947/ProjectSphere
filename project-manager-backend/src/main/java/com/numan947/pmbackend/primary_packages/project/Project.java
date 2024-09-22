@@ -2,7 +2,6 @@ package com.numan947.pmbackend.primary_packages.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.numan947.pmbackend.common.BaseEntity;
-import com.numan947.pmbackend.primary_packages.chatmessage.Chat;
 import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.user.User;
 import jakarta.persistence.*;
@@ -26,9 +25,9 @@ public class Project extends BaseEntity {
     @CollectionTable(name = "_project_tags", joinColumns = @JoinColumn(name = "project_id"))
     private List<String> tags;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Chat chat;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Chat chat;
 
     @ManyToOne
     private User owner;
@@ -36,7 +35,8 @@ public class Project extends BaseEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Issue> issues;
 
-    @ManyToMany(mappedBy = "projects")
+    @ManyToMany
+    @JsonIgnore
     private List<User>teamMembers;
 
 }

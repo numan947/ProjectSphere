@@ -1,4 +1,4 @@
-package com.numan947.pmbackend.primary_packages.comments;
+package com.numan947.pmbackend.primary_packages.issue.comments;
 
 import com.numan947.pmbackend.common.BaseEntity;
 import com.numan947.pmbackend.primary_packages.issue.Issue;

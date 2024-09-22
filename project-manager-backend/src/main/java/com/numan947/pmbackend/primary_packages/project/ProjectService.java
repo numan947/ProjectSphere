@@ -1,12 +1,13 @@
 package com.numan947.pmbackend.primary_packages.project;
 
-import com.numan947.pmbackend.primary_packages.chatmessage.dto.ChatResponse;
+//import com.numan947.pmbackend.primary_packages.chatmessage.dto.ChatResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectRequest;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectShortResponse;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProjectService {
 
@@ -24,7 +25,14 @@ public interface ProjectService {
 
     void removeMemberFromProject(String projectId, String memberId, Authentication connectedUser);
 
-    ChatResponse getChatByProjectId(String projectId, Authentication connectedUser);
+//    ChatResponse getChatByProjectId(String projectId, Authentication connectedUser);
 
     List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size);
+
+
+    // these methods are used from other services
+    Optional<Project> findProjectByIdAndOwnerId(String projectId, String ownerId);
+    Optional<Project> findProjectById(String projectId);
+    void updateProject(Project project);
+    boolean isUserPartOfProject(String userId, String projectId);
 }

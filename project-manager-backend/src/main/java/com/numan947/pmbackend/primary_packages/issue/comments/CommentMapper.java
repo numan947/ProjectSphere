@@ -1,6 +1,6 @@
-package com.numan947.pmbackend.primary_packages.comments;
+package com.numan947.pmbackend.primary_packages.issue.comments;
 
-import com.numan947.pmbackend.primary_packages.comments.dto.CommentResponse;
+import com.numan947.pmbackend.primary_packages.issue.comments.dto.CommentResponse;
 import com.numan947.pmbackend.user.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

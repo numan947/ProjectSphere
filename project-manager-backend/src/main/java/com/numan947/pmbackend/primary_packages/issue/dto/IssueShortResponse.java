@@ -1,6 +1,5 @@
 package com.numan947.pmbackend.primary_packages.issue.dto;
 
-import com.numan947.pmbackend.primary_packages.issue.comments.dto.CommentResponse;
 import com.numan947.pmbackend.user.dto.UserResponse;
 import lombok.*;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class IssueResponse {
+public class IssueShortResponse {
     private String id;
     private String title;;
     private String description;;
@@ -21,5 +20,4 @@ public class IssueResponse {
     private LocalDate dueDate;
     private List<String> tags;
     private UserResponse assignedUser;
-    private List<CommentResponse>comments;
 }

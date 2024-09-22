@@ -2,14 +2,11 @@ package com.numan947.pmbackend.primary_packages.issue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.numan947.pmbackend.common.BaseEntity;
-import com.numan947.pmbackend.primary_packages.comments.Comment;
+import com.numan947.pmbackend.primary_packages.issue.comments.Comment;
 import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "_issues")

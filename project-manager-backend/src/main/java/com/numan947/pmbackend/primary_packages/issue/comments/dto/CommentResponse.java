@@ -1,4 +1,4 @@
-package com.numan947.pmbackend.primary_packages.comments.dto;
+package com.numan947.pmbackend.primary_packages.issue.comments.dto;
 
 import com.numan947.pmbackend.user.dto.UserResponse;
 import lombok.*;

@@ -2,10 +2,10 @@ package com.numan947.pmbackend.primary_packages.invitation;
 
 import com.numan947.pmbackend.exception.OperationNotPermittedException;
 import com.numan947.pmbackend.primary_packages.project.Project;
-import com.numan947.pmbackend.primary_packages.project.ProjectRepository;
 import com.numan947.pmbackend.email.EmailService;
+import com.numan947.pmbackend.primary_packages.project.ProjectService;
 import com.numan947.pmbackend.user.User;
-import com.numan947.pmbackend.user.UserRepository;
+import com.numan947.pmbackend.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +21,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class InvitationServiceImpl implements InvitationService{
     private final InvitationRepository invitationRepository;
-    private final ProjectRepository projectRepository;
     private final EmailService emailService;
-    private final UserRepository userRepository;
+    private final ProjectService projectService;
+    private final UserService userService;
 
     // TODO: move these to application.properties
     private String invitationCodeCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -35,7 +35,7 @@ public class InvitationServiceImpl implements InvitationService{
     @Transactional
     public void createInvitation(String projectId, String userEmail, Authentication auth) throws MessagingException {
         User user = (User) auth.getPrincipal();
-        Project project = projectRepository.findProjectByIdAndOwnerId(projectId, user.getId()).orElseThrow(
+        Project project = projectService.findProjectByIdAndOwnerId(projectId, user.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Project not found")
         ); // check if the project exists and the user is the owner of the project at the same time
 
@@ -56,7 +56,7 @@ public class InvitationServiceImpl implements InvitationService{
     @Transactional
     public void deleteInvitation(String projectId, String invitationCode, Authentication auth) {
         User user = (User) auth.getPrincipal();
-        Project project = projectRepository.findProjectByIdAndOwnerId(projectId, user.getId()).orElseThrow(
+        Project project = projectService.findProjectByIdAndOwnerId(projectId, user.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Project not found")
         ); // check if the project exists and the user is the owner of the project at the same time'
         Invitation invitation = invitationRepository.findInvitationByProjectIdAndInvitationCode(projectId, invitationCode).orElseThrow(
@@ -72,7 +72,7 @@ public class InvitationServiceImpl implements InvitationService{
         User user = (User) auth.getPrincipal();
 
         // validate project and user
-        Project project = projectRepository.findProjectById(projectId).orElseThrow(
+        Project project = projectService.findProjectById(projectId).orElseThrow(
                 () -> new EntityNotFoundException("Project not found")
         ); // check if the project exists
         if (project.getTeamMembers().stream().anyMatch(member -> member.getId().equals(user.getId()))) {
@@ -93,10 +93,9 @@ public class InvitationServiceImpl implements InvitationService{
 
 
         project.getTeamMembers().add(user); // add the user to the project
-        project.getChat().getMembers().add(user); // add the user to the chat
-        user.setNumberOfProjects(user.getNumberOfProjects() + 1); // increment the number of projects of the user
-        userRepository.save(user); // save the user
-        projectRepository.save(project); // save the project
+//        project.getChat().getMembers().add(user); // add the user to the chat
+        userService.updateProjectSize(user.getId(), true); // update the project size of the user
+        projectService.updateProject(project); // save the project
         invitation.setAcceptedDate(LocalDateTime.now());
         invitationRepository.save(invitation);// save the invitation
     }

@@ -21,7 +21,6 @@ public class ProjectMapper {
                 .description(projectRequest.description())
                 .category(projectRequest.category())
                 .tags(new ArrayList<>())
-                .chat(null)
                 .owner(null)
                 .issues(new ArrayList<>())
                 .teamMembers(new ArrayList<>())

@@ -1,8 +1,6 @@
 package com.numan947.pmbackend.primary_packages.project;
 
 import com.numan947.pmbackend.exception.OperationNotPermittedException;
-import com.numan947.pmbackend.primary_packages.chatmessage.ChatService;
-import com.numan947.pmbackend.primary_packages.chatmessage.dto.ChatResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectRequest;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectShortResponse;
@@ -14,13 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProjectServiceImpl implements ProjectService{
     private final ProjectRepository projectRepository;
-    private final ChatService chatService;
 
     private final ProjectMapper projectMapper;
 
@@ -32,7 +30,7 @@ public class ProjectServiceImpl implements ProjectService{
         project.setOwner(user);
         project.getTeamMembers().add(user);
         // create chat
-        project.setChat(chatService.createNewChat(projectRequest.name(), project));
+//        project.setChat(chatService.createNewChat(projectRequest.name(), project));
         projectRepository.save(project);
         return projectMapper.toProjectShortResponse(project);
     }
@@ -107,10 +105,10 @@ public class ProjectServiceImpl implements ProjectService{
 
     }
 
-    @Override
-    public ChatResponse getChatByProjectId(String projectId, Authentication connectedUser) {
-        return null;
-    }
+//    @Override
+//    public ChatResponse getChatByProjectId(String projectId, Authentication connectedUser) {
+//        return null;
+//    }
 
     @Override
     public List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size) {
@@ -118,5 +116,27 @@ public class ProjectServiceImpl implements ProjectService{
         User user = (User) connectedUser.getPrincipal();
         List<Project> projects = projectRepository.findAllByNameContainingOrDescriptionContaining(searchKey, searchKey, user.getId());
         return projects.stream().map(projectMapper::toProjectShortResponse).toList();
+    }
+
+    @Override
+    public Optional<Project> findProjectByIdAndOwnerId(String projectId, String ownerId) {
+        return projectRepository.findProjectByIdAndOwnerId(projectId, ownerId);
+    }
+
+    @Override
+    public Optional<Project> findProjectById(String projectId) {
+        return projectRepository.findById(projectId);
+    }
+
+    @Override
+    public void updateProject(Project project) {
+        projectRepository.save(project);
+    }
+
+    @Override
+    public boolean isUserPartOfProject(String userId, String projectId) {
+        Project project = projectRepository.findById(projectId).
+                orElseThrow(() -> new EntityNotFoundException("Project not found"));
+        return project.getTeamMembers().stream().anyMatch(user -> user.getId().equals(userId));
     }
 }
