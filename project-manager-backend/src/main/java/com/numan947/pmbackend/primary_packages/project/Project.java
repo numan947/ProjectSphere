@@ -32,6 +32,11 @@ public class Project extends BaseEntity {
     private List<Issue> issues;
 
     @ManyToMany
+    @JoinTable(
+            name = "_projects_team_members",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_members_id")
+    )
     @JsonIgnore
     private List<User>teamMembers;
 

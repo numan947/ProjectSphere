@@ -140,4 +140,16 @@ public class IssueServiceImpl implements IssueService{
     public List<IssueShortResponse> searchIssues(String projectId, String query, Authentication auth) {
         return List.of();
     }
+
+    @Override
+    public List<IssueResponse> getAllIssuesCreatedByUser(String userId) {
+        List<Issue> tmp = issueRepository.getAllIssuesCreatedByUser(userId);
+        return tmp.stream().map(issueMapper::toIssueResponse).toList();
+    }
+
+    @Override
+    public List<IssueResponse> getAllIssuesAssignedToUser(String userId) {
+        List<Issue> tmp = issueRepository.getAllIssuesAssignedToUser(userId);
+        return tmp.stream().map(issueMapper::toIssueResponse).toList();
+    }
 }

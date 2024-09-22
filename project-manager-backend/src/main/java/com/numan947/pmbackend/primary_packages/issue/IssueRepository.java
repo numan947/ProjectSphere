@@ -14,4 +14,9 @@ public interface IssueRepository extends JpaRepository<Issue, String> {
     Optional<Issue> findByProjectIdAndId(String projectId, String issueId);
 
 
+    @Query("SELECT i FROM Issue i WHERE i.createdBy = :userId")
+    List<Issue> getAllIssuesCreatedByUser(String userId);
+
+    @Query("SELECT i FROM Issue i WHERE i.assignedUser.id = :userId")
+    List<Issue> getAllIssuesAssignedToUser(String userId);
 }

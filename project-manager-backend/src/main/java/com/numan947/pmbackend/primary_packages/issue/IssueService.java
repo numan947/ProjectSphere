@@ -36,4 +36,8 @@ public interface IssueService {
     IssueResponse getIssueComments(String issueId, Authentication auth);
 
     List<IssueShortResponse> searchIssues(String projectId, String query, Authentication auth);
+
+    List<IssueResponse> getAllIssuesCreatedByUser(String userId);
+
+    List<IssueResponse> getAllIssuesAssignedToUser(String userId);
 }

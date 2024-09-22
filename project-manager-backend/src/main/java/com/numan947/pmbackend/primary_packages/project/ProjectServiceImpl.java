@@ -56,7 +56,8 @@ public class ProjectServiceImpl implements ProjectService{
         User user = (User) connectedUser.getPrincipal();
         Project project = projectRepository.findById(projectId).
                 orElseThrow(() -> new EntityNotFoundException("Project not found"));
-        if(!project.getTeamMembers().contains(user) && !project.getOwner().equals(user)){
+
+        if(!project.getTeamMembers().stream().map(User::getId).toList().contains(user.getId())){ // compare Ids not objects
             throw new OperationNotPermittedException("User is not a member of this project");
         }
         return projectMapper.toProjectResponse(project);
@@ -81,7 +82,7 @@ public class ProjectServiceImpl implements ProjectService{
         User user = (User) connectedUser.getPrincipal();
         Project project = projectRepository.findById(projectRequest.id()).
                 orElseThrow(() -> new EntityNotFoundException("Project not found"));
-        if(!project.getOwner().equals(user)){
+        if(!project.getOwner().getId().equals(user.getId())){
             throw new OperationNotPermittedException("User is not the owner of this project");
         }
         project.setName(projectRequest.name());
@@ -130,5 +131,11 @@ public class ProjectServiceImpl implements ProjectService{
         Project project = projectRepository.findById(projectId).
                 orElseThrow(() -> new EntityNotFoundException("Project not found"));
         return project.getTeamMembers().stream().anyMatch(user -> user.getId().equals(userId));
+    }
+
+    @Override
+    public List<ProjectResponse> getAllTeamProjectsOfUser(String userId) {
+        var tmp = projectRepository.findAllTeamProjectsByUserId(userId);
+        return tmp.stream().map(projectMapper::toProjectResponse).toList();
     }
 }

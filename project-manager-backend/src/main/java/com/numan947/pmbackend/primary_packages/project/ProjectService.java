@@ -33,4 +33,6 @@ public interface ProjectService {
     Optional<Project> findProjectById(String projectId);
     void updateProject(Project project);
     boolean isUserPartOfProject(String userId, String projectId);
+
+    List<ProjectResponse> getAllTeamProjectsOfUser(String userId);
 }

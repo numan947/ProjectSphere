@@ -24,4 +24,7 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
     @Query("SELECT p FROM Project p WHERE p.owner.id = :ownerId AND p.id = :projectId")
     Optional<Project> findProjectByIdAndOwnerId(String projectId, String ownerId);
     Optional<Project> findProjectById(String projectId);
+
+    @Query("SELECT p FROM Project p JOIN p.teamMembers m WHERE m.id = :userId AND p.owner.id != :userId")
+    List<Project> findAllTeamProjectsByUserId(String userId);
 }

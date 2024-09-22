@@ -21,7 +21,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping
-    public ResponseEntity<List<ProjectShortResponse>>getAllProjects(
+    public ResponseEntity<List<ProjectShortResponse>>getAllProjects(//tested
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String tag,
             @RequestParam(defaultValue = defaultPage) Integer page,
@@ -32,7 +32,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{project-id}")
-    public ResponseEntity<ProjectResponse>getProjectById(
+    public ResponseEntity<ProjectResponse>getProjectById(//tested
             @PathVariable("project-id") String projectId,
             Authentication auth
     ){
@@ -40,14 +40,14 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProjectShortResponse>CreateProject(
+    public ResponseEntity<ProjectShortResponse>CreateProject( // tested
             @RequestBody ProjectRequest projectRequest,
             Authentication auth
     ){
         return ResponseEntity.ok(projectService.createProject(projectRequest, auth));
     }
 
-    @PatchMapping("/update/")
+    @PutMapping("/update")
     public ResponseEntity<ProjectShortResponse>updateProject(
             @RequestBody ProjectRequest projectRequest,
             Authentication auth

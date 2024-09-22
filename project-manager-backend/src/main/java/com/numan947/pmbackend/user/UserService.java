@@ -7,4 +7,6 @@ public interface UserService {
     UserResponse findByEmail(String email);
     UserResponse findByUserId(String userId);
     UserResponse updateProjectSize(String userId, Boolean isIncrement);
+
+    UserResponse getUserProfile(String userId);
 }
