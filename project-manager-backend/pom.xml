@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.numan947</groupId>
 	<artifactId>project-manager-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>project-manager-backend</name>
 	<description>Backend of a fullstack project management application.</description>
 	<url/>

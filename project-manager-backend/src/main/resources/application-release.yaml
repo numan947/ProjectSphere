@@ -1,0 +1,58 @@
+
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  mail:
+    host: ${EMAIL_HOSTNAME}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
+            trust: "*" # or the domain of the certificate
+
+
+application:
+  roles:
+    rolenames: ROLE_USER,ROLE_ADMIN
+    roledescriptions: User,Admin
+  file:
+    uploads:
+      photos-directory: ./uploads
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      expiration: ${JWT_EXPIRATION} # in milliseconds
+    mailing:
+      frontend:
+        sender: ${MAIL_SENDER_EMAIL}
+        activation-url: ${ACTIVATION_URL}
+        activation-code-length: ${ACTIVATION_CODE_LENGTH} # in characters -- e.g. 6
+        activation-code-expiration: ${ACTIVATION_CODE_EXPIRATION} # in minutes -- e.g. 5
+        activation-code-characters: ${ACTIVATION_CODE_CHARACTERS} # characters to use in the activation code -- e.g. ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+        activation-code-subject: Activate your account
+        reset-url: ${RESET_URL}
+        reset-subject: Reset your password
+    cors:
+      origins: ${CORS_ORIGINS} # http://localhost:4200,http://localhost:8080 -- comma separated list of origins
+server:
+  port: 9999
