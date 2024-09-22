@@ -6,6 +6,7 @@ on:
     paths:
       - '/project-manager-backend/**'
       - '/docker/backend/Dockerfile'
+      - './.github/workflows/pipeline-backend.yaml'
 
 jobs:
   compile:
