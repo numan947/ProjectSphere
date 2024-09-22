@@ -1,0 +1,96 @@
+name: Backend Pipeline CI/CD
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '/project-manager-backend/**'
+      - '/docker/backend/Dockerfile'
+
+jobs:
+  compile:
+    runs-on: self-hosted
+    name: Compile Project
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Compile with Maven
+        run: |
+          cd project-manager-backend
+          chmod +x mvnw
+          ./mvnw clean compile
+
+  build:
+    runs-on: self-hosted
+    name: Build Docker Image
+    needs: [compile]
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Compile with Maven
+        run: |
+          cd project-manager-backend
+          chmod +x mvnw
+          ./mvnw clean package -DskipTests
+
+  build-docker-image:
+    runs-on: self-hosted
+    name: Build and Push Docker Image
+    needs: [compile, build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Extract project version
+        id: extract_version
+        run: |
+          cd project-manager-backend
+          chmod +x mvnw
+          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: project-manager-backend
+          file: docker/backend/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/project-manager-backend:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKERHUB_USERNAME }}/project-manager-backend:latest
+          build-args: |
+            APP_NAME=project-manager-backend
+            PORT=9999
+            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
