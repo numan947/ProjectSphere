@@ -4,8 +4,8 @@ on:
     branches:
       - master
     paths:
-      - '/project-manager-backend/**'
-      - '/docker/backend/Dockerfile'
+      - 'project-manager-backend/**'
+      - 'docker/backend/Dockerfile'
       - '.github/workflows/pipeline-backend.yaml'
 
 jobs:
