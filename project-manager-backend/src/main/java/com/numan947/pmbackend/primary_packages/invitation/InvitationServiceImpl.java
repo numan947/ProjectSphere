@@ -5,7 +5,6 @@ import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.email.EmailService;
 import com.numan947.pmbackend.primary_packages.project.ProjectService;
 import com.numan947.pmbackend.user.User;
-import com.numan947.pmbackend.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -112,13 +111,13 @@ public class InvitationServiceImpl implements InvitationService{
 
         if (user.getId().equals(project.getOwner().getId())){
             // owner is removing a member
-            projectService.removeMemberFromProject(projectId, userId);
+            projectService.removeTeamMemberFromProject(projectId, userId);
         }
         else{
             // member is removing himself
             // check if the user is part of the project
             if(projectService.isUserPartOfProject(user.getId(), projectId) && user.getId().equals(userId)){
-                projectService.removeMemberFromProject(projectId, userId); // remove the member
+                projectService.removeTeamMemberFromProject(projectId, userId); // remove the member
             }
             else{
                 throw new OperationNotPermittedException("Invalid operation");

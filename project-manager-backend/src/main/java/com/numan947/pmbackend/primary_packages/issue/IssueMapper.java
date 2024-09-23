@@ -24,7 +24,9 @@ public class IssueMapper {
                 .priority(issue.getPriority())
                 .dueDate(issue.getDueDate())
                 .tags(issue.getTags())
-                .assignedUser(userMapper.toUserResponse(issue.getAssignedUser()))
+                .assignedUser(userMapper.toBriefUserResponse(issue.getAssignedUser()))
+                .createdBy(userMapper.toBriefUserResponse(issue.getCreatedBy()))
+                .lastUpdatedBy(issue.getLastUpdatedBy())
                 .comments(issue.getComments().stream().map(commentMapper::toCommentResponse).toList())
                 .build();
     }
@@ -33,11 +35,12 @@ public class IssueMapper {
         return IssueShortResponse.builder()
                 .id(issue.getId())
                 .title(issue.getTitle())
-                .description(issue.getDescription())
                 .status(issue.getStatus())
                 .priority(issue.getPriority())
                 .dueDate(issue.getDueDate())
                 .tags(issue.getTags())
+                .assignedUser(userMapper.toBriefUserResponse(issue.getAssignedUser()))
+                .createdBy(userMapper.toBriefUserResponse(issue.getCreatedBy()))
                 .build();
     }
 

@@ -19,7 +19,9 @@ public class IssueResponse {
     private String status;
     private String priority;
     private LocalDate dueDate;
+    private String lastUpdatedBy;
     private List<String> tags;
     private UserResponse assignedUser;
+    private UserResponse createdBy;
     private List<CommentResponse>comments;
 }

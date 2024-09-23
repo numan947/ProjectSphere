@@ -1,6 +1,7 @@
 package com.numan947.pmbackend.primary_packages.project;
 
 import com.numan947.pmbackend.exception.OperationNotPermittedException;
+import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectRequest;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectShortResponse;
@@ -142,6 +143,7 @@ public class ProjectServiceImpl implements ProjectService{
         return projects.stream().map(projectMapper::toProjectShortResponse).toList();
     }
 
+
     @Override
     public void addTeamMemberToProject(String projectId, String memberId) {
         // validate project and user
@@ -159,7 +161,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void removeMemberFromProject(String projectId, String memberId) {
+    public void removeTeamMemberFromProject(String projectId, String memberId) {
         Project project = projectRepository.findProjectById(projectId).orElseThrow(
                 () -> new EntityNotFoundException("Project not found")
         ); // check if the project exists
@@ -175,5 +177,23 @@ public class ProjectServiceImpl implements ProjectService{
         project.getTeamMembers().removeIf(member -> member.getId().equals(memberId));
         projectRepository.save(project);
         userService.removeProjectFromUser(memberId, project);
+    }
+
+    @Override
+    public void addIssueToProject(String projectId, Issue issue) {
+        Project project = projectRepository.findProjectById(projectId).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        );
+        project.getIssues().add(issue);
+        projectRepository.save(project);
+    }
+
+    @Override
+    public void removeIssueFromProject(String projectId, Issue issue) {
+        Project project = projectRepository.findProjectById(projectId).orElseThrow(
+                () -> new EntityNotFoundException("Project not found")
+        );
+        project.getIssues().remove(issue);
+        projectRepository.save(project);
     }
 }

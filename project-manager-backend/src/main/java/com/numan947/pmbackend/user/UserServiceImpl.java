@@ -1,9 +1,11 @@
 package com.numan947.pmbackend.user;
 
 import com.numan947.pmbackend.exception.OperationNotPermittedException;
+import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.primary_packages.issue.IssueMapper;
 import com.numan947.pmbackend.primary_packages.issue.IssueService;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueResponse;
+import com.numan947.pmbackend.primary_packages.issue.dto.IssueShortResponse;
 import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.primary_packages.project.ProjectMapper;
 import com.numan947.pmbackend.primary_packages.project.ProjectService;
@@ -52,6 +54,34 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void addIssueToUser(String userId, Issue issue) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        user.getCreatedIssues().add(issue);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void removeIssueFromUser(String userId, Issue issue) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        user.getCreatedIssues().removeIf(i -> i.getId().equals(issue.getId()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void assignIssueToUser(String userId, Issue issue) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        user.getAssignedIssues().add(issue);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void unassignIssueFromUser(String userId, Issue issue) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        user.getAssignedIssues().removeIf(i -> i.getId().equals(issue.getId()));
+        userRepository.save(user);
+    }
+
+    @Override
     public UserResponse getUserProfile(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
         List<ProjectResponse> ownProjects = new ArrayList<>();
@@ -64,8 +94,8 @@ public class UserServiceImpl implements UserService{
             }
         }
         System.out.println(ownProjects.size());
-        List<IssueResponse> createdIssues = user.getCreatedIssues().stream().map(issueMapper::toIssueResponse).toList();
-        List<IssueResponse> assignedIssues = user.getAssignedIssues().stream().map(issueMapper::toIssueResponse).toList();
+        List<IssueShortResponse> createdIssues = user.getCreatedIssues().stream().map(issueMapper::toIssueShortResponse).toList();
+        List<IssueShortResponse> assignedIssues = user.getAssignedIssues().stream().map(issueMapper::toIssueShortResponse).toList();
         return userMapper.toUserProfileResponse(user, ownProjects, otherProjects, createdIssues, assignedIssues);
     }
 }

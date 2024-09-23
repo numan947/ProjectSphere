@@ -25,6 +25,7 @@ public class Issue extends BaseEntity {
     private String status;
     private String priority;
     private LocalDate dueDate;
+    private String lastUpdatedBy;
 
     @ElementCollection
     @CollectionTable(name = "_issue_tags", joinColumns = @JoinColumn(name = "issue_id"))

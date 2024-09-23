@@ -3,6 +3,7 @@ package com.numan947.pmbackend.user;
 import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.primary_packages.issue.IssueMapper;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueResponse;
+import com.numan947.pmbackend.primary_packages.issue.dto.IssueShortResponse;
 import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.primary_packages.project.ProjectMapper;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
@@ -18,12 +19,18 @@ import java.util.List;
 public class UserMapper {
 
     public UserResponse toBriefUserResponse(User user){
+        if (user == null) {
+            return null;
+        }
         return UserResponse.builder()
                 .id(user.getId())
                 .fullName(user.getFirstName() + " " + user.getLastName())
                 .build();
     }
     public UserResponse toUserResponse(User user) {
+        if (user == null) {
+            return null;
+        }
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -38,8 +45,11 @@ public class UserMapper {
             User user,
             List<ProjectResponse>ownProjects,
             List<ProjectResponse>otherProject,
-            List<IssueResponse>createdIssues,
-            List<IssueResponse>assignedIssues) {
+            List<IssueShortResponse>createdIssues,
+            List<IssueShortResponse>assignedIssues) {
+        if (user == null) {
+            return null;
+        }
         UserResponse tmp = UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())

@@ -19,4 +19,7 @@ public interface IssueRepository extends JpaRepository<Issue, String> {
 
     @Query("SELECT i FROM Issue i WHERE i.assignedUser.id = :userId")
     List<Issue> getAllIssuesAssignedToUser(String userId);
+
+    @Query("SELECT i FROM Issue i WHERE i.project.id = :projectId AND (LOWER(i.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(i.description) LIKE LOWER(CONCAT('%', :query, '%')))")
+    List<Issue> searchIssues(String projectId, String query);
 }

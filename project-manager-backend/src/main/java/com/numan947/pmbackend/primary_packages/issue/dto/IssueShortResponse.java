@@ -14,10 +14,10 @@ import java.util.List;
 public class IssueShortResponse {
     private String id;
     private String title;;
-    private String description;;
     private String status;
     private String priority;
     private LocalDate dueDate;
     private List<String> tags;
     private UserResponse assignedUser;
+    private UserResponse createdBy;
 }

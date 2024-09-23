@@ -1,5 +1,6 @@
 package com.numan947.pmbackend.primary_packages.project;
 
+import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectRequest;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectShortResponse;
@@ -23,6 +24,7 @@ public interface ProjectService {
 
     List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size);
     List<ProjectShortResponse> getAllTeamProjectsOfUser(Authentication auth);
+    List<ProjectShortResponse> getAllOwnProjects(Authentication auth);
 
 
     // these methods are used from other services
@@ -30,8 +32,10 @@ public interface ProjectService {
     Optional<Project> findProjectById(String projectId);
     void updateProject(Project project);
     boolean isUserPartOfProject(String userId, String projectId);
-    List<ProjectShortResponse> getAllOwnProjects(Authentication auth);
     void addTeamMemberToProject(String projectId, String memberId);
-    void removeMemberFromProject(String projectId, String memberId);
+    void removeTeamMemberFromProject(String projectId, String memberId);
+
+    void addIssueToProject(String projectId, Issue issue);
+    void removeIssueFromProject(String projectId, Issue issue);
 
 }

@@ -13,8 +13,11 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -179,6 +182,31 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(NoResourceFoundException exp) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ExceptionResponseDTO(
+                        null,
+                        null,
+                        exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(MethodArgumentTypeMismatchException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponseDTO(
+                        null,
+                        null,
+                        exp.getName() + " should be of type " + Objects.requireNonNull(exp.getRequiredType()).getSimpleName(),
+                        null,
+                        null
+                )
+        );
+    }
 
 
     /**
