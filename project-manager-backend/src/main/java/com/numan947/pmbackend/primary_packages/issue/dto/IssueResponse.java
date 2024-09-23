@@ -1,6 +1,6 @@
 package com.numan947.pmbackend.primary_packages.issue.dto;
 
-import com.numan947.pmbackend.primary_packages.issue.comments.dto.CommentResponse;
+import com.numan947.pmbackend.primary_packages.comments.dto.CommentResponse;
 import com.numan947.pmbackend.user.dto.UserResponse;
 import lombok.*;
 

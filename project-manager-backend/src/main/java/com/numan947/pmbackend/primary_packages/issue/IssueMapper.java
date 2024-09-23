@@ -1,6 +1,6 @@
 package com.numan947.pmbackend.primary_packages.issue;
 
-import com.numan947.pmbackend.primary_packages.issue.comments.CommentMapper;
+import com.numan947.pmbackend.primary_packages.comments.CommentMapper;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueRequest;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueResponse;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueShortResponse;

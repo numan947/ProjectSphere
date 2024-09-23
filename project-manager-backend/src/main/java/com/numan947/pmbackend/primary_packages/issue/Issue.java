@@ -2,7 +2,7 @@ package com.numan947.pmbackend.primary_packages.issue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.numan947.pmbackend.common.BaseEntity;
-import com.numan947.pmbackend.primary_packages.issue.comments.Comment;
+import com.numan947.pmbackend.primary_packages.comments.Comment;
 import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.user.User;
 import jakarta.persistence.*;
