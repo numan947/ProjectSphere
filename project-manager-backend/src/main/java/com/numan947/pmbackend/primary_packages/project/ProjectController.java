@@ -1,10 +1,8 @@
 package com.numan947.pmbackend.primary_packages.project;
 
-import com.numan947.pmbackend.exception.OperationNotPermittedException;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectRequest;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectShortResponse;
-import com.numan947.pmbackend.user.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,7 +66,7 @@ public class ProjectController {
     public ResponseEntity<List<ProjectShortResponse>>getOwnProjects(//tested
             Authentication auth
     ){
-        return ResponseEntity.ok(projectService.getAllOwnProjects(auth));
+        return ResponseEntity.ok(projectService.getAllOwnProjectsOfUser(auth));
     }
 
 

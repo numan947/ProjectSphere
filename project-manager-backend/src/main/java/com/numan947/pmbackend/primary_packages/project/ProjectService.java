@@ -24,7 +24,7 @@ public interface ProjectService {
 
     List<ProjectShortResponse> searchProjects(String searchKey, Authentication connectedUser, int page, int size);
     List<ProjectShortResponse> getAllTeamProjectsOfUser(Authentication auth);
-    List<ProjectShortResponse> getAllOwnProjects(Authentication auth);
+    List<ProjectShortResponse> getAllOwnProjectsOfUser(Authentication auth);
 
 
     // these methods are used from other services

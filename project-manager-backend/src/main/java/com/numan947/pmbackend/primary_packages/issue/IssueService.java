@@ -36,8 +36,4 @@ public interface IssueService {
 
     List<IssueShortResponse> searchIssues(String projectId, String query, Authentication auth);
 
-    List<IssueResponse> getAllIssuesCreatedByUser(String userId);
-
-    List<IssueResponse> getAllIssuesAssignedToUser(String userId);
-
 }

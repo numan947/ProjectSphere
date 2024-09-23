@@ -137,7 +137,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public List<ProjectShortResponse> getAllOwnProjects(Authentication auth) {
+    public List<ProjectShortResponse> getAllOwnProjectsOfUser(Authentication auth) {
         User user = (User) auth.getPrincipal();
         List<Project> projects = projectRepository.findAllByOwnerId(user.getId());
         return projects.stream().map(projectMapper::toProjectShortResponse).toList();

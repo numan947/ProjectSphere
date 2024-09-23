@@ -221,6 +221,7 @@ public class IssueServiceImpl implements IssueService{
         issue.setAssignedUser(newAssignedUser);
         issue.setLastUpdatedBy(user.getId());
         issueRepository.save(issue);
+        userService.assignIssueToUser(assignedUserId, issue);
         return issueMapper.toIssueShortResponse(issue);
     }
 
@@ -262,15 +263,4 @@ public class IssueServiceImpl implements IssueService{
         return issueRepository.searchIssues(projectId, query).stream().map(issueMapper::toIssueShortResponse).toList();
     }
 
-    @Override
-    public List<IssueResponse> getAllIssuesCreatedByUser(String userId) {
-        List<Issue> tmp = issueRepository.getAllIssuesCreatedByUser(userId);
-        return tmp.stream().map(issueMapper::toIssueResponse).toList();
-    }
-
-    @Override
-    public List<IssueResponse> getAllIssuesAssignedToUser(String userId) {
-        List<Issue> tmp = issueRepository.getAllIssuesAssignedToUser(userId);
-        return tmp.stream().map(issueMapper::toIssueResponse).toList();
-    }
 }
