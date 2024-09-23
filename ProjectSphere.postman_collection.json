@@ -1,0 +1,1904 @@
+{
+	"info": {
+		"_postman_id": "1b42687c-0090-4031-9002-983a4f08edaf",
+		"name": "ProjectManagement",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37987652"
+	},
+	"item": [
+		{
+			"name": "User Related API",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fname\":\"Hasan\",\r\n    \"lname\":\"Rashid\",\r\n    \"email\":\"hasan@rashid.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/auth/register",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"hasan@rashid.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/auth/login",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/auth/activate?activation-code=133685",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"activate"
+							],
+							"query": [
+								{
+									"key": "activation-code",
+									"value": "133685"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"0987654321\",\r\n    \"resetcode\":\"347868\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/auth/reset-password",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resend-activation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/auth/resend-activation?email=joe@buddy2.com",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"resend-activation"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "joe@buddy2.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/auth/forgot-password?email=joe@buddy.com",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"forgot-password"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "joe@buddy.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/users/profile",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects API",
+			"item": [
+				{
+					"name": "Create a project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fitness Tracking Application\",\r\n    \"description\": \"An application to log workouts, monitor progress, and track fitness goals.\",\r\n    \"category\": \"Health\",\r\n    \"tags\": [\"fitness\", \"tracking\", \"spring boot\", \"health\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/create",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/delete/54abcb96-a891-425e-b493-ea1f2dc85977",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"delete",
+								"54abcb96-a891-425e-b493-ea1f2dc85977"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search project",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/search",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"search"
+							],
+							"query": [
+								{
+									"key": "searchKey",
+									"value": "sy",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Own Projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/own-projects",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"own-projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Team Projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/team-projects",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"team-projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProjectById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/90f26232-00b6-4d6e-ae38-9a7512113e5d",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"90f26232-00b6-4d6e-ae38-9a7512113e5d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a project",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"abcd15e6-ad68-4101-abfc-8a538ca4a855\",\r\n    \"name\":\"My Second Cool Project With BOOTABLE PENDRIVE\",\r\n    \"description\":\"VVVERY GOOD UPDATE HERE\",\r\n    \"category\":\"PENDRIVE\",\r\n    \"tags\":[\"PENDRIVE\",\"spring\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/projects/update",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"projects",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invitation API",
+			"item": [
+				{
+					"name": "send invitation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/invitation/create?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&user-email=hasan@rashid.com",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"invitation",
+								"create"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "user-email",
+									"value": "hasan@rashid.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/invitation/accept/90f26232-00b6-4d6e-ae38-9a7512113e5d?invitation-code=C01rpXfbJ8TS",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"invitation",
+								"accept",
+								"90f26232-00b6-4d6e-ae38-9a7512113e5d"
+							],
+							"query": [
+								{
+									"key": "invitation-code",
+									"value": "C01rpXfbJ8TS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove User From Project",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/invitation/remove?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&user-id=6fadecdf-b658-4823-a3cc-a179f209f3ed",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"invitation",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "user-id",
+									"value": "6fadecdf-b658-4823-a3cc-a179f209f3ed"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Issue API",
+			"item": [
+				{
+					"name": "Create Issue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"title\":\"Yet Another Issue\",\r\n    \"description\":\"This is a huge issue\",\r\n    \"status\":\"In Progress\",\r\n    \"priority\":\"High\",\r\n    \"tags\":[\"fix\",\"boot\",\"spring\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Issue By Member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"title\":\"CREATED BY HASAN RASHID\",\r\n    \"description\":\"This is a huge issue\",\r\n    \"status\":\"In Progress\",\r\n    \"priority\":\"High\",\r\n    \"tags\":[\"fix\",\"boot\",\"spring\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All By Project Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzEwMTY0OCwiZXhwIjoxNzI3MTg4MDQ4LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.dLWRICGznJx-q_2S3Jx6-jzk41v2U6kLrba2-7OkKw8ykdZY_jc_V74-qv4oRtWt6NZ7pXNsZiezwPdYf0Vm9w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue By Not Creator Not Owner",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"issueId\":\"3fd1f228-1ecf-4f2e-bf25-8d6208f66504\",\r\n    \"title\":\"Edited AGAIN By Hasan Rashid\",\r\n    \"description\":\"This is a huge issue\",\r\n    \"status\":\"In Progress\",\r\n    \"priority\":\"High\",\r\n    \"tags\":[\"fix\",\"boot\",\"spring\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue By Member Creator",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"issueId\":\"70cee6fa-6e61-41f9-b374-01a911f1f0a1\",\r\n    \"title\":\"Edited AGAIN By Hasan Rashid\",\r\n    \"description\":\"This is a huge issue\",\r\n    \"status\":\"In Progress\",\r\n    \"priority\":\"High\",\r\n    \"tags\":[\"fix\",\"boot\",\"spring\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue By Project owner",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"issueId\":\"70cee6fa-6e61-41f9-b374-01a911f1f0a1\",\r\n    \"title\":\"Created By Hasan Rashid -- Edited AGAIN By project owner\",\r\n    \"description\":\"This is a huge issue\",\r\n    \"status\":\"In Progress\",\r\n    \"priority\":\"High\",\r\n    \"tags\":[\"fix\",\"boot\",\"spring\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=e917d683-24b7-4f13-80cb-f97ee2f510c7",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "e917d683-24b7-4f13-80cb-f97ee2f510c7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_MEMBER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/issue?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"issue"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: Priority -- Project Owner",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-priority?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&priority=Low",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-priority"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "priority",
+									"value": "Low"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: Priority -- Issue Creator",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-priority?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&priority=SUPER HIGH",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-priority"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "priority",
+									"value": "SUPER HIGH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: tags -- Project Owner",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-tags?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&tags=hello&tags=world",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-tags"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "tags",
+									"value": "hello"
+								},
+								{
+									"key": "tags",
+									"value": "world"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: tags-- Issue Creator",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-tags?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&tags=terraform&tags=enhancement",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-tags"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "tags",
+									"value": "terraform"
+								},
+								{
+									"key": "tags",
+									"value": "enhancement"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: Priority -- not owner, not creator",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-priority?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&priority=SUPER HIGH",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-priority"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "priority",
+									"value": "SUPER HIGH"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: due date-- Project Owner",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-due-date?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&due-date=23-09-2024",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-due-date"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "due-date",
+									"value": "23-09-2024"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: Due date-- Issue Creator Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-due-date?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&due-date=99-09-2024",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-due-date"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "due-date",
+									"value": "99-09-2024"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: due date-- not owner, not creator Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-due-date?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&due-date=03-08-2023",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-due-date"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "due-date",
+									"value": "03-08-2023"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: assign user-- Issue Creator",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/assign-to?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&user-id=aaa9c433-4d54-4eed-af1c-cb0b44fb28a9",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"assign-to"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "user-id",
+									"value": "aaa9c433-4d54-4eed-af1c-cb0b44fb28a9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: assign user-- Project Owner",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/assign-to?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&user-id=6fadecdf-b658-4823-a3cc-a179f209f3ed",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"assign-to"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "user-id",
+									"value": "6fadecdf-b658-4823-a3cc-a179f209f3ed"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: set status-- Issue Creator",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-status?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&status=Completed",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-status"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "status",
+									"value": "Completed"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: set status-- Project Owner",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6IkpvZSBCYW5hbmEiLCJzdWIiOiJqb2VAYnVkZHkzLmNvbSIsImlhdCI6MTcyNzAxMTM4NSwiZXhwIjoxNzI3MDk3Nzg1LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiXX0.wNV7DvJt2UZAmucIfv-TENs5XoPMciIeXa7t07LhIE5ZA0HV2nbZdRqsMGTMwRfpkJJKDDq--Nk-8uJ-Ty4B6w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-status?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=70cee6fa-6e61-41f9-b374-01a911f1f0a1&status=Not Completed",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-status"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "70cee6fa-6e61-41f9-b374-01a911f1f0a1"
+								},
+								{
+									"key": "status",
+									"value": "Not Completed"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Issue: set status-- Issue Assignee",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/set-status?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&status=Completed",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"set-status"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "status",
+									"value": "Completed"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJmdWxsTmFtZSI6Ikhhc2FuIFJhc2hpZCIsInN1YiI6Imhhc2FuQHJhc2hpZC5jb20iLCJpYXQiOjE3MjcwMzM0ODksImV4cCI6MTcyNzExOTg4OSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9VU0VSIl19.bbjFgeqZiJOSBdXPrC1Q4sPtuH5tGy0oRwYtjN4bV0t1lRFISqZGUw_HPeovVwfDgBD2Xuazt7GAyapZbmXpIQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/issues/search?project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&query=Again",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"issues",
+								"search"
+							],
+							"query": [
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "query",
+									"value": "Again"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment API",
+			"item": [
+				{
+					"name": "Create Comment Owner",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_OWNER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"issueId\":\"00285acc-3dbf-4b53-af6e-fadd5d664c8a\",\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"content\":\"This is the ANother comment33\",\r\n    \"date\":\"2024-09-23T15:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/comments/add",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Comment Member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_MEMBER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"issueId\":\"00285acc-3dbf-4b53-af6e-fadd5d664c8a\",\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"content\":\"Hasan Rashid 3\",\r\n    \"date\":\"2024-09-23T18:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/comments/add",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Own Comment - Member",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_MEMBER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/comments/delete?issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&comment-id=906df65b-14ac-41ec-9b84-481a960b688d",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "comment-id",
+									"value": "906df65b-14ac-41ec-9b84-481a960b688d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Own Comment - Owner",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_OWNER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/comments/delete?issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d&comment-id=d8c9282b-8d67-4035-afcf-862b9afd4285",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								},
+								{
+									"key": "comment-id",
+									"value": "d8c9282b-8d67-4035-afcf-862b9afd4285"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Comments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_OWNER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/comments/get?issue-id=00285acc-3dbf-4b53-af6e-fadd5d664c8a&project-id=90f26232-00b6-4d6e-ae38-9a7512113e5d",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"get"
+							],
+							"query": [
+								{
+									"key": "issue-id",
+									"value": "00285acc-3dbf-4b53-af6e-fadd5d664c8a"
+								},
+								{
+									"key": "project-id",
+									"value": "90f26232-00b6-4d6e-ae38-9a7512113e5d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EDIT COMMENT",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{PROJECT_OWNER_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"commentId\":\"1ed32c27-573d-4934-a286-3647bc93c0c7\",\r\n    \"issueId\":\"00285acc-3dbf-4b53-af6e-fadd5d664c8a\",\r\n    \"projectId\":\"90f26232-00b6-4d6e-ae38-9a7512113e5d\",\r\n    \"content\":\"PROJECT OWNER COMMENT EDITED\",\r\n    \"date\":\"2024-09-23T15:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}:{{api_port}}/api/v1/comments/edit",
+							"host": [
+								"{{api_url}}"
+							],
+							"port": "{{api_port}}",
+							"path": [
+								"api",
+								"v1",
+								"comments",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

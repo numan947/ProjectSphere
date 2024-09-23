@@ -37,6 +37,7 @@ public enum BusinessErrorCodes {
     ACCOUNT_DISABLED(303, "Account is disabled", FORBIDDEN),
     OPERATION_NOT_PERMITTED(401, "Operation not permitted", FORBIDDEN),
     ENTITY_NOT_FOUND(404, "Entity not found", NOT_FOUND),
+    JWT_EXPIRED(405, "JWT token has expired", UNAUTHORIZED),
     ;
 
     private final int code;

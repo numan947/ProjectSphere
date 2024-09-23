@@ -22,4 +22,7 @@ public interface IssueRepository extends JpaRepository<Issue, String> {
 
     @Query("SELECT i FROM Issue i WHERE i.project.id = :projectId AND (LOWER(i.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(i.description) LIKE LOWER(CONCAT('%', :query, '%')))")
     List<Issue> searchIssues(String projectId, String query);
+
+    @Query("SELECT i FROM Issue i WHERE i.project.id = :projectId AND i.id = :issueId")
+    boolean existsByProjectIdAndId(String projectId, String issueId);
 }

@@ -1,5 +1,6 @@
 package com.numan947.pmbackend.primary_packages.issue;
 
+import com.numan947.pmbackend.primary_packages.comments.Comment;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueRequest;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueResponse;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueShortResponse;
@@ -36,4 +37,10 @@ public interface IssueService {
 
     List<IssueShortResponse> searchIssues(String projectId, String query, Authentication auth);
 
+    boolean issueExists(@NotNull(message = "Project id cannot be null") @NotEmpty(message = "Project id cannot be empty") @NotBlank(message = "Project id cannot be blank") String projectId, @NotNull(message = "Issue id cannot be null") @NotEmpty(message = "Issue id cannot be empty") @NotBlank(message = "Issue id cannot be blank") String issueId);
+
+    Optional<Issue> getIssueByProjectIdAndIssueId(@NotNull(message = "Project id cannot be null") @NotEmpty(message = "Project id cannot be empty") @NotBlank(message = "Project id cannot be blank") String projectId, @NotNull(message = "Issue id cannot be null") @NotEmpty(message = "Issue id cannot be empty") @NotBlank(message = "Issue id cannot be blank") String issueId);
+
+    void addCommentToIssue(String issueId, Comment cmnt);
+    void removeCommentFromIssue(String issueId, Comment cmnt);
 }

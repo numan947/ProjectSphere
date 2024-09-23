@@ -1,6 +1,7 @@
 package com.numan947.pmbackend.primary_packages.issue;
 
 import com.numan947.pmbackend.exception.OperationNotPermittedException;
+import com.numan947.pmbackend.primary_packages.comments.Comment;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueRequest;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueResponse;
 import com.numan947.pmbackend.primary_packages.issue.dto.IssueShortResponse;
@@ -261,6 +262,34 @@ public class IssueServiceImpl implements IssueService{
             throw new OperationNotPermittedException("User is not part of the project");
         }
         return issueRepository.searchIssues(projectId, query).stream().map(issueMapper::toIssueShortResponse).toList();
+    }
+
+    @Override
+    public boolean issueExists(String projectId, String issueId) {
+        return issueRepository.existsByProjectIdAndId(projectId, issueId);
+    }
+
+    @Override
+    public Optional<Issue> getIssueByProjectIdAndIssueId(String projectId, String issueId) {
+        return issueRepository.findByProjectIdAndId(projectId, issueId);
+    }
+
+    @Override
+    public void addCommentToIssue(String issueId, Comment cmnt) {
+        Issue issue = issueRepository.findById(issueId).orElseThrow(
+                () -> new EntityNotFoundException("Issue not found")
+        );
+        issue.getComments().add(cmnt);
+        issueRepository.save(issue);
+    }
+
+    @Override
+    public void removeCommentFromIssue(String issueId, Comment cmnt) {
+        Issue issue = issueRepository.findById(issueId).orElseThrow(
+                () -> new EntityNotFoundException("Issue not found")
+        );
+        issue.getComments().removeIf(comment -> comment.getId().equals(cmnt.getId()));
+        issueRepository.save(issue);
     }
 
 }

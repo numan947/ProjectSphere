@@ -1,5 +1,6 @@
 package com.numan947.pmbackend.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -202,6 +203,19 @@ public class GlobalExceptionHandler {
                         null,
                         null,
                         exp.getName() + " should be of type " + Objects.requireNonNull(exp.getRequiredType()).getSimpleName(),
+                        null,
+                        null
+                )
+        );
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(ExpiredJwtException exp) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ExceptionResponseDTO(
+                        BusinessErrorCodes.JWT_EXPIRED.getCode(),
+                        BusinessErrorCodes.JWT_EXPIRED.getDescription(),
+                        exp.getMessage(),
                         null,
                         null
                 )
