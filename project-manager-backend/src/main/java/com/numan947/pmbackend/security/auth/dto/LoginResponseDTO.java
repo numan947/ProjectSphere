@@ -5,6 +5,5 @@ public record LoginResponseDTO(
         String email,
         String token,
         String fullName
-
 ){
 }

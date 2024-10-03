@@ -1,6 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
+import LandingPage from "./domain/auth/LandingPage.tsx";
 import Home from "./pages/Home.tsx";
+import ActivateAccount from "./domain/auth/ActivateAccount.tsx";
+import PrivateRoutes from "./PrivateRoutes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -10,19 +13,32 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <LandingPage />,
       },
       {
-        path: "projects",
-        element: <div>Projects</div>,
+        path: "activate-account",
+        element: <ActivateAccount />,
       },
       {
-        path: "issues",
-        element: <div>Issues</div>,
-      },
-      {
-        path: "profile",
-        element: <div>Profile</div>,
+        element: <PrivateRoutes />,
+        children: [
+          {
+            path: "home",
+            element: <Home />,
+          },
+          {
+            path: "projects",
+            element: <div>Projects</div>,
+          },
+          {
+            path: "issues",
+            element: <div>Issues</div>,
+          },
+          {
+            path: "profile",
+            element: <div>Profile</div>,
+          },
+        ],
       },
     ],
   },

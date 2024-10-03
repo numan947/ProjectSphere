@@ -47,7 +47,7 @@ application:
         activation-code-characters: 0123456789
         activation-code-subject: Activate your account
     cors:
-      origins: http://localhost:4200,http://localhost:8080
+      origins: http://localhost:4200,http://localhost:8080,http://localhost:5173
 server:
   port: 9999
 logging:

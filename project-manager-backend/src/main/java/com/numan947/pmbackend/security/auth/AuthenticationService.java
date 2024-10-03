@@ -149,11 +149,11 @@ public class AuthenticationService {
      */
     @Transactional
     public void activateAccount(String activationCode) {
-        var token = tokenRepository.findByTokenAndType(activationCode, TokenTypes.ACTIVATION.toString()).orElseThrow(() -> new RuntimeException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
+        var token = tokenRepository.findByTokenAndType(activationCode, TokenTypes.ACTIVATION.toString()).orElseThrow(() -> new EntityNotFoundException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
         if (token.getExpirationTime().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("Token expired"); // TODO: ADD CUSTOM EXCEPTION
         }
-        var user = userRepository.findById(token.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found")); // TODO: ADD CUSTOM EXCEPTION
+        var user = userRepository.findById(token.getUser().getId()).orElseThrow(() -> new EntityNotFoundException("User not found")); // TODO: ADD CUSTOM EXCEPTION
         user.setAccountEnabled(true);
         userRepository.save(user);
         token.setValidationTime(LocalDateTime.now());
