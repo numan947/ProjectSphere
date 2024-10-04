@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query"
-import authClient, { LoginRequest, LoginResponse } from "../client/authClient";
+import authClient  from "../AuthClient";
+import { LoginRequest, LoginResponse } from "../Entities";
 import { AxiosError } from "axios";
-import useAuthStore from "../store/AuthStore";
+import useAuthStore from "../AuthStore";
 
 const useLogin = (loginSuccessHandler: ()=>void, loginFailureHandler:(message:string)=>void) =>{
     const setUser = useAuthStore((state) => state.setUser);

@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { GrTasks } from "react-icons/gr";
-import useAuthStore from "../domain/auth/store/AuthStore";
+import useAuthStore from "../domain/auth/AuthStore";
 import { useNavigate } from "react-router-dom";
 
 const ProfileButton = () => {

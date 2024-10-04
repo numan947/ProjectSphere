@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import authClient, { RegisterRequest } from "../client/authClient";
+import { RegisterRequest } from "../Entities"
+import authClient from "../AuthClient";
 import {AxiosError} from "axios";
 
 const useRegister = (registerSuccessHandler:()=>void, registerFailureHandler:(message:string)=>void) => {

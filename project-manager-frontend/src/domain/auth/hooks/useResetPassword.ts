@@ -1,5 +1,5 @@
 import { useMutation} from "@tanstack/react-query";
-import authClient from "../client/authClient";
+import authClient from "../AuthClient";
 import { AxiosError } from "axios";
 
 export const useResetPassword = (onSuccess:()=>void, onError:(msg:string)=>void) => {

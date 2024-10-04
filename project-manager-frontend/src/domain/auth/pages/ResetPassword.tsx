@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import useAuthStore from "./store/AuthStore";
+import useAuthStore from "../AuthStore";
 import {
   Alert,
   AlertDescription,
@@ -17,7 +17,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useResetPassword } from "./hooks/useResetPassword";
+import { useResetPassword } from "../hooks/useResetPassword";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

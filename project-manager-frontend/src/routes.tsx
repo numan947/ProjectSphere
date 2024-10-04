@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
 import LandingPage from "./LandingPage.tsx";
 import Home from "./pages/Home.tsx";
-import ActivateAccount from "./domain/auth/ActivateAccount.tsx";
+import ActivateAccount from "./domain/auth/pages/ActivateAccount.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
-import ResetPassword from "./domain/auth/ResetPassword.tsx";
+import ResetPassword from "./domain/auth/pages/ResetPassword.tsx";
 
 const router = createBrowserRouter([
   {

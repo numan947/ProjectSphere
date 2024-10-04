@@ -11,8 +11,8 @@ import icon from "../assets/Icon.svg";
 import ColorSwitch from "../building-blocks/ColorSwitch";
 import SearchBar from "../building-blocks/SearchBar";
 import ProfileButton from "../building-blocks/ProfileButton";
-import useAuthStore from "../domain/auth/store/AuthStore";
-import LoginOrRegister from "../domain/auth/LoginOrRegister";
+import useAuthStore from "../domain/auth/AuthStore";
+import LoginOrRegister from "../domain/auth/pages/LoginOrRegister";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {

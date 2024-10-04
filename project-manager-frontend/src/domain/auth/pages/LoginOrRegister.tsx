@@ -28,11 +28,11 @@ import { useState } from "react";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useLogin from "./hooks/useLogin";
+import useLogin from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import useRegister from "./hooks/useRegister";
+import useRegister from "../hooks/useRegister";
 import SendCodeModal from "./SendCodeModal";
-import { useResetPasswordRequest } from "./hooks/useResetPasswordRequest";
+import { useResetPasswordRequest } from "../hooks/useResetPasswordRequest";
 
 const defaultValues = {
   email: "",

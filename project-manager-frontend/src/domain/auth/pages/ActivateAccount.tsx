@@ -12,10 +12,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import SendCodeModal from "./SendCodeModal";
-import useAuthStore from "./store/AuthStore";
+import useAuthStore from "../AuthStore";
 import { Navigate } from "react-router-dom";
-import { useRequestActivationCode } from "./hooks/useRequestActivationCode";
-import useActivateAccount from "./hooks/useActivateAccount";
+import { useRequestActivationCode } from "../hooks/useRequestActivationCode";
+import useActivateAccount from "../hooks/useActivateAccount";
 import { useState } from "react";
 
 const ActivateAccount = () => {

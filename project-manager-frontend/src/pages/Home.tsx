@@ -1,22 +1,12 @@
-import React from "react";
-import { Flex, Box, Text, Grid, Spacer } from "@chakra-ui/react";
+import { Box, Grid } from "@chakra-ui/react";
 import FilterList from "../components/FilterList";
-import { FaFile, FaFilter, FaTags } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa";
 import { TiTags } from "react-icons/ti";
 import ProjectCardList from "../components/ProjectCardList";
 
 const Home = () => {
   const filters = ["All", "Active", "Completed"];
   const tags = ["Urgent", "High Priority", "Low Priority"];
-  // Sample data for the lists
-  const mainContent = Array.from(
-    { length: 300 },
-    (_, index) => `Main Item ${index + 1}`
-  );
-  const asideContent = Array.from(
-    { length: 150 },
-    (_, index) => `Aside Item ${index + 1}`
-  );
 
   return (
     <Grid templateColumns="1fr 4fr" height="100vh">

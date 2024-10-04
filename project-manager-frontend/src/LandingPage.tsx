@@ -1,5 +1,5 @@
 import { Center, Text } from "@chakra-ui/react";
-import useAuthStore from "./domain/auth/store/AuthStore";
+import useAuthStore from "./domain/auth/AuthStore";
 import { Navigate } from "react-router-dom";
 
 function LandingPage() {

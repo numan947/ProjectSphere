@@ -1,23 +1,5 @@
-import axiosInstance from "../../../common/BaseClient";
-
-export interface LoginResponse{
-    id: string;
-    token: string;
-    email: string;
-    fullName: string;
-}
-
-export interface LoginRequest{
-    email: string;
-    password: string;
-}
-
-export interface RegisterRequest{
-    email: string;
-    password: string;
-    fname: string;
-    lname: string;
-}
+import axiosInstance from "../../common/BaseClient";
+import { LoginRequest, LoginResponse, RegisterRequest } from "./Entities";
 
 class AuthClient{
     prefix = '/auth'
