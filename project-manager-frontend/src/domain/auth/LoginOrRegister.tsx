@@ -20,6 +20,9 @@ import {
   TabPanels,
   Text,
   Tabs,
+  VStack,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { z } from "zod";
@@ -28,6 +31,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useLogin from "./hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import useRegister from "./hooks/useRegister";
+import SendCodeModal from "./SendCodeModal";
+import { useResetPasswordRequest } from "./hooks/useResetPasswordRequest";
 
 const defaultValues = {
   email: "",
@@ -75,6 +80,37 @@ const LoginOrRegister = ({ isOpen, onClose }: LoginOrRegisterProps) => {
 
   // error message state for displaying error message in the modal
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // for password reset dialog
+  const {
+    isOpen: prDialogOpen,
+    onClose: prDialogClose,
+    onOpen: prDialogOnOpen,
+  } = useDisclosure();
+
+  const toast = useToast();
+
+  const { mutate: prRequest } = useResetPasswordRequest(
+    () => {
+      toast({
+        title: "Password reset code sent!",
+        description:
+          "We've sent a password reset code to your email. Please follow the instructions in the email.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    },
+    (msg: string) => {
+      toast({
+        title: "Error",
+        description: msg,
+        status: msg.includes("not found") ? "error" : "warning",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  );
 
   // form handling for login and register
   const {
@@ -345,18 +381,44 @@ const LoginOrRegister = ({ isOpen, onClose }: LoginOrRegisterProps) => {
         </ModalBody>
         <ModalFooter>
           {tabIndex == 0 ? (
-            <Text>
-              Don't have an account?{" "}
-              <Button
-                variant="link"
-                colorScheme="blue"
-                onClick={() => {
-                  setTabIndex(1);
-                }}
-              >
-                Register
-              </Button>
-            </Text>
+            <VStack justifySelf="end" align="end">
+              <Text>
+                Forgot password?{" "}
+                <>
+                  <Button
+                    variant="link"
+                    colorScheme="purple"
+                    onClick={prDialogOnOpen}
+                  >
+                    Reset!
+                  </Button>
+                  <SendCodeModal
+                    isOpen={prDialogOpen}
+                    onClose={() => {
+                      prDialogClose();
+                    }}
+                    headerText="Reset Password"
+                    bodyText="Enter your email address to receive a password reset code."
+                    onSubmit={(email: string) => {
+                      prDialogClose();
+                      prRequest(email);
+                    }}
+                  />
+                </>
+              </Text>
+              <Text>
+                Don't have an account?{" "}
+                <Button
+                  variant="link"
+                  colorScheme="blue"
+                  onClick={() => {
+                    setTabIndex(1);
+                  }}
+                >
+                  Register!
+                </Button>
+              </Text>
+            </VStack>
           ) : (
             <Text>
               Already have an account?{" "}

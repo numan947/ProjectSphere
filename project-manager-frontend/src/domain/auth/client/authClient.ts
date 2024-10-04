@@ -51,6 +51,23 @@ class AuthClient{
             );
         return res;
     }
+
+    forgotPassword = async (email:string)=>{
+        const res = await axiosInstance
+            .get(`${this.prefix}/forgot-password?email=${email}`);
+        return res;
+    }
+
+    resetPassword = async (password:string, token:string)=>{
+        const res = await axiosInstance
+            .post(`${this.prefix}/reset-password`, {
+                password: password,
+                resetcode: token
+            });
+        return res;
+    }
+
+
 }
 
 export default new AuthClient();
