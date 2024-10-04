@@ -11,7 +11,8 @@ const useRegister = (registerSuccessHandler:()=>void, registerFailureHandler:(me
             registerSuccessHandler();
         },
         onError: (error:AxiosError) => {
-            registerFailureHandler(`Registration Failed with Error code: ${error.response?.status}`);
+            const errorData = error.response?.data as { businessErrorDescription?: string };
+            registerFailureHandler(`Registration Failed! ${errorData.businessErrorDescription}`);
         }
     });
 }

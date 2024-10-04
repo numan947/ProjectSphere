@@ -39,6 +39,7 @@ const NavBar = () => {
             <SearchBar />
             <Spacer />
             <ProfileButton />
+            <Spacer />
           </>
         )}
         {!token && (

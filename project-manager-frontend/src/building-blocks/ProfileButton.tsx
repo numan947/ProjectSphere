@@ -1,21 +1,33 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { GrTasks } from "react-icons/gr";
 import useAuthStore from "../domain/auth/store/AuthStore";
 import { useNavigate } from "react-router-dom";
 
 const ProfileButton = () => {
-  const { logout } = useAuthStore();
+  const { logout, userFullName } = useAuthStore();
   const navigate = useNavigate();
-  const userName = "John Doe";
   const handleLogOut = () => {
     logout();
     navigate("/");
   };
   return (
     <Menu>
-      <MenuButton as={Button} variant="ghost">
-        {userName}
+      <MenuButton
+        as={Button}
+        variant="link"
+        justifyItems="center"
+        justifyContent="center"
+        colorScheme="blue"
+      >
+        <Text>{userFullName}</Text>
       </MenuButton>
       <MenuList>
         <MenuItem icon={<FaUser />}>My Account</MenuItem>

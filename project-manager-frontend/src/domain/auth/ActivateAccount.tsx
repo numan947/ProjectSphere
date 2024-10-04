@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Button,
   HStack,
   PinInput,
@@ -12,6 +16,7 @@ import useAuthStore from "./store/AuthStore";
 import { Navigate } from "react-router-dom";
 import { useRequestActivationCode } from "./hooks/useRequestActivationCode";
 import useActivateAccount from "./hooks/useActivateAccount";
+import { useState } from "react";
 
 const ActivateAccount = () => {
   const { token } = useAuthStore();
@@ -21,15 +26,31 @@ const ActivateAccount = () => {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
+  const [codeSent, setCodeSent] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const onSuccessfulActivation = () => {};
+  const onErrorHandler = (msg: string) => {
+    setErrorMessage(msg);
+    console.log(errorMessage);
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 5000);
+  };
+
   // for resending activation code
-  const { mutate: resendActivationCode } = useRequestActivationCode();
+  const { mutate: resendActivationCode } = useRequestActivationCode(() => {
+    setCodeSent(true);
+    setTimeout(() => {
+      setCodeSent(false);
+    }, 5000);
+  }, onErrorHandler);
 
   const {
     mutate: activateAccount,
     isPending,
     isSuccess,
-    isError,
-  } = useActivateAccount();
+  } = useActivateAccount(onSuccessfulActivation, onErrorHandler);
 
   const submitPin = (pin: string) => {
     activateAccount(pin);
@@ -50,11 +71,18 @@ const ActivateAccount = () => {
         An activation code has been sent to your email. Please check your inbox
         and enter the code below.
       </Text>
-      {isError && (
-        <Text fontSize="xl" color="red">
-          Invalid activation code
-        </Text>
-      )}
+      {
+        // if the activation is successful, show success message
+        isSuccess && (
+          <Alert status="success" justifyContent="center">
+            <AlertIcon />
+            <AlertTitle>Activation Successful!</AlertTitle>
+            <AlertDescription>
+              Your account has been activated. Now you can log in.
+            </AlertDescription>
+          </Alert>
+        )
+      }
 
       <HStack>
         <PinInput
@@ -80,15 +108,34 @@ const ActivateAccount = () => {
           variant="link"
           colorScheme="green"
           onClick={onOpen}
+          isDisabled={codeSent || isPending || isSuccess}
         >
           Resend code
         </Button>
+        {!errorMessage && codeSent && (
+          <Alert status="info" justifyContent="center">
+            <AlertIcon />
+            <AlertTitle>Info</AlertTitle>
+            <AlertDescription>
+              A new activation code has been sent to your email.
+            </AlertDescription>
+          </Alert>
+        )}
+        {errorMessage && (
+          <Alert status="error" justifyContent="center">
+            <AlertIcon />
+            <AlertTitle>Activation Failed!</AlertTitle>
+            <AlertDescription>{errorMessage}</AlertDescription>
+          </Alert>
+        )}
         <SendCodeModal
           isOpen={isOpen}
           onSubmit={(email: string) => {
             resendActivationCode(email);
           }}
-          onClose={onClose}
+          onClose={() => {
+            onClose();
+          }}
           headerText="Resend Activation Code"
           bodyText="Are you sure you want to resend the activation code?"
         />

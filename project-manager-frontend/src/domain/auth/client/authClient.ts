@@ -23,13 +23,13 @@ class AuthClient{
     prefix = '/auth'
     login = async (loginReq:LoginRequest)=>{
         const res = await axiosInstance
-            .post<LoginRequest, LoginResponse>(`${this.prefix}/login`, loginReq);
+            .post<LoginRequest, {data:LoginResponse}>(`${this.prefix}/login`, loginReq);
         return res;
     }
 
     register = async (registerReq:RegisterRequest)=>{
         const res = await axiosInstance
-            .post<RegisterRequest, LoginResponse>(`${this.prefix}/register`, registerReq);
+            .post<RegisterRequest, any>(`${this.prefix}/register`, registerReq);
         return res;
     }
 

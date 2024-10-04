@@ -5,7 +5,7 @@ import useAuthStore from "../store/AuthStore";
 
 const useLogin = (loginSuccessHandler: ()=>void, loginFailureHandler:(message:string)=>void) =>{
     const setUser = useAuthStore((state) => state.setUser);
-    return useMutation<LoginResponse, AxiosError, LoginRequest>(
+    return useMutation<{data:LoginResponse}, AxiosError, LoginRequest>(
         {
             mutationKey: ["login"],
             mutationFn: authClient.login,
@@ -16,12 +16,13 @@ const useLogin = (loginSuccessHandler: ()=>void, loginFailureHandler:(message:st
                 loginFailureHandler(errorMessage);
             },
             onSuccess: (data) => {
-                console.log(data);
+                // console.log("LOGIN SUCCESS")
+                var tmp = data.data;
                 setUser({
-                    fullName: data.fullName,
-                    email: data.email,
-                    id: data.id,
-                    token: data.token,
+                    fullName: tmp.fullName,
+                    email: tmp.email,
+                    id: tmp.id,
+                    token: tmp.token,
                 });
                 loginSuccessHandler();
             }
