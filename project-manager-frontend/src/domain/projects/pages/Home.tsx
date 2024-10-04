@@ -1,10 +1,10 @@
 import { Box, Grid } from "@chakra-ui/react";
-import FilterList from "../components/FilterList";
+import FilterList from "../../../components/FilterList";
 import { FaFilter } from "react-icons/fa";
 import { TiTags } from "react-icons/ti";
-import ProjectCardList from "../components/ProjectCardList";
+import ProjectCardList from "../../../components/ProjectCardList";
 
-const Home = () => {
+const ProjectHome = () => {
   const filters = ["All", "Active", "Completed"];
   const tags = ["Urgent", "High Priority", "Low Priority"];
 
@@ -46,4 +46,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ProjectHome;

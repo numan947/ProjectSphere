@@ -1,6 +1,6 @@
 import { SimpleGrid } from "@chakra-ui/react";
 import ProjectCard from "../building-blocks/ProjectCard";
-import { ProjectShortResponse } from "../entities/project-short-response";
+import { ProjectShortResponse } from "../domain/projects/Entities";
 
 const ProjectCardList = () => {
   const project: ProjectShortResponse = {

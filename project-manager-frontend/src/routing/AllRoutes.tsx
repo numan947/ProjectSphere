@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./pages/Layout.tsx";
-import LandingPage from "./LandingPage.tsx";
-import Home from "./pages/Home.tsx";
-import ActivateAccount from "./domain/auth/pages/ActivateAccount.tsx";
+import Layout from "../common/Layout.tsx";
+import LandingPage from "../common/LandingPage.tsx";
+import ProjectHome from "../domain/projects/pages/Home.tsx";
+import ActivateAccount from "../domain/auth/pages/ActivateAccount.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
-import ResetPassword from "./domain/auth/pages/ResetPassword.tsx";
+import ResetPassword from "../domain/auth/pages/ResetPassword.tsx";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "home",
-            element: <Home />,
+            element: <ProjectHome />,
           },
           {
             path: "projects",
