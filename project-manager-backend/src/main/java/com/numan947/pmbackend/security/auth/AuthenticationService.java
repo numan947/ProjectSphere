@@ -1,5 +1,8 @@
 package com.numan947.pmbackend.security.auth;
 
+import com.numan947.pmbackend.exception.AccountExistsException;
+import com.numan947.pmbackend.exception.InvalidTokenException;
+import com.numan947.pmbackend.exception.OperationNotPermittedException;
 import com.numan947.pmbackend.role.RoleRepository;
 import com.numan947.pmbackend.security.auth.dto.LoginRequestDTO;
 import com.numan947.pmbackend.security.auth.dto.LoginResponseDTO;
@@ -80,7 +83,7 @@ public class AuthenticationService {
         var userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new RuntimeException("ROLE_USER not found in role repository")); // TODO: ADD CUSTOM EXCEPTION
         // check if user already exists
         if (userRepository.findByEmail(registrationRequestDTO.email()).isPresent()) {
-            throw new RuntimeException("User with email " + registrationRequestDTO.email() + " already exists"); // TODO: ADD CUSTOM EXCEPTION
+            throw new AccountExistsException("User with email " + registrationRequestDTO.email() + " already exists"); // TODO: ADD CUSTOM EXCEPTION
         }
         // create user
         var user = authMapper.toUserForRegistration(registrationRequestDTO, userRole);
@@ -149,9 +152,9 @@ public class AuthenticationService {
      */
     @Transactional
     public void activateAccount(String activationCode) {
-        var token = tokenRepository.findByTokenAndType(activationCode, TokenTypes.ACTIVATION.toString()).orElseThrow(() -> new EntityNotFoundException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
+        var token = tokenRepository.findByTokenAndType(activationCode, TokenTypes.ACTIVATION.toString()).orElseThrow(() -> new InvalidTokenException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
         if (token.getExpirationTime().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Token expired"); // TODO: ADD CUSTOM EXCEPTION
+            throw new InvalidTokenException("Token expired");
         }
         var user = userRepository.findById(token.getUser().getId()).orElseThrow(() -> new EntityNotFoundException("User not found")); // TODO: ADD CUSTOM EXCEPTION
         user.setAccountEnabled(true);
@@ -167,9 +170,9 @@ public class AuthenticationService {
      * @throws MessagingException if an error occurs while sending the activation email.
      */
     public void resendActivation(String email) throws MessagingException {
-        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")); // TODO: ADD CUSTOM EXCEPTION
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User not found")); // TODO: ADD CUSTOM EXCEPTION
         if (user.isAccountEnabled()) {
-            throw new RuntimeException("Account already activated"); // TODO: ADD CUSTOM EXCEPTION
+            throw new OperationNotPermittedException("Account already activated"); // TODO: ADD CUSTOM EXCEPTION
         }
 
         // TODO: May be a good idea to expire old tokens before creating a new one
@@ -200,11 +203,11 @@ public class AuthenticationService {
     }
 
     public void resetPassword(ResetPasswordRequestDTO resetRequest) throws MessagingException {
-        var token = tokenRepository.findByTokenAndType(resetRequest.resetcode(), TokenTypes.PASSWORD_RESET.toString()).orElseThrow(() -> new RuntimeException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
+        var token = tokenRepository.findByTokenAndType(resetRequest.resetcode(), TokenTypes.PASSWORD_RESET.toString()).orElseThrow(() -> new InvalidTokenException("Token not found")); // TODO: ADD CUSTOM EXCEPTION
         if (token.getExpirationTime().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Token expired"); // TODO: ADD CUSTOM EXCEPTION
+            throw new InvalidTokenException("Token expired"); // TODO: ADD CUSTOM EXCEPTION
         }
-        var user = userRepository.findById(token.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found")); // TODO: ADD CUSTOM EXCEPTION
+        var user = userRepository.findById(token.getUser().getId()).orElseThrow(() -> new EntityNotFoundException("User not found")); // TODO: ADD CUSTOM EXCEPTION
         user.setPassword(authMapper.encodePassword(resetRequest.password()));
         userRepository.save(user);
         token.setValidationTime(LocalDateTime.now());

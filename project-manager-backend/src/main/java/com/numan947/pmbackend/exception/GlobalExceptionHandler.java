@@ -85,6 +85,34 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(InvalidTokenException exp) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ExceptionResponseDTO(
+                        BusinessErrorCodes.TOKEN_INVALID.getCode(),
+                        BusinessErrorCodes.TOKEN_INVALID.getDescription(),
+                        exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+    @ExceptionHandler(AccountExistsException.class)
+    public ResponseEntity<ExceptionResponseDTO> handle(AccountExistsException exp) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponseDTO(
+                        BusinessErrorCodes.ACCOUNT_EXISTS.getCode(),
+                        BusinessErrorCodes.ACCOUNT_EXISTS.getDescription(),
+                        exp.getMessage(),
+                        null,
+                        null
+                )
+        );
+    }
+
+
+
     /**
      * Handles EntityNotFoundException and returns a response with HTTP status 404 (NOT_FOUND).
      *

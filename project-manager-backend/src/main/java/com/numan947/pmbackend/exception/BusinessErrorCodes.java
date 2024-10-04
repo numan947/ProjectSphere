@@ -38,6 +38,8 @@ public enum BusinessErrorCodes {
     OPERATION_NOT_PERMITTED(401, "Operation not permitted", FORBIDDEN),
     ENTITY_NOT_FOUND(404, "Entity not found", NOT_FOUND),
     JWT_EXPIRED(405, "JWT token has expired", UNAUTHORIZED),
+    TOKEN_INVALID(406, "Provided token is not valid", UNAUTHORIZED),
+    ACCOUNT_EXISTS(305, "Account already exists", BAD_REQUEST),
     ;
 
     private final int code;
