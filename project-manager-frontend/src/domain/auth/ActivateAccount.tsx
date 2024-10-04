@@ -90,6 +90,7 @@ const ActivateAccount = () => {
           type="number"
           onComplete={submitPin}
           isDisabled={isPending || isSuccess}
+          autoFocus
         >
           <PinInputField />
           <PinInputField />

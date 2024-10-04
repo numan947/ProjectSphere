@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
-import LandingPage from "./domain/auth/LandingPage.tsx";
+import LandingPage from "./LandingPage.tsx";
 import Home from "./pages/Home.tsx";
 import ActivateAccount from "./domain/auth/ActivateAccount.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
+import ResetPassword from "./domain/auth/ResetPassword.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "activate-account",
         element: <ActivateAccount />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
       {
         element: <PrivateRoutes />,

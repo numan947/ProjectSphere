@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Divider,
   HStack,
@@ -14,6 +13,7 @@ import SearchBar from "../building-blocks/SearchBar";
 import ProfileButton from "../building-blocks/ProfileButton";
 import useAuthStore from "../domain/auth/store/AuthStore";
 import LoginOrRegister from "../domain/auth/LoginOrRegister";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const { token } = useAuthStore();
@@ -22,17 +22,22 @@ const NavBar = () => {
   return (
     <>
       <HStack minHeight={30} padding={2}>
-        <Image src={icon} boxSize="60px" objectFit="cover"></Image>
-        <Text
-          fontSize={{
-            sm: "lg",
-            lg: "xl",
-            xl: "3xl",
-          }}
-          as={"b"}
-        >
-          ProjectSpehere
-        </Text>
+        <Link to="/">
+          <Image src={icon} alt="ProjectSphere" boxSize={10} />
+        </Link>
+
+        <Link to="/">
+          <Text
+            fontSize={{
+              sm: "lg",
+              lg: "xl",
+              xl: "3xl",
+            }}
+            as={"b"}
+          >
+            ProjectSpehere
+          </Text>
+        </Link>
         <Spacer />
         {token && (
           <>
