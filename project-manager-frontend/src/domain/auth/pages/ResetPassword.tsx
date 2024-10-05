@@ -59,6 +59,7 @@ const ResetPassword = () => {
   const {
     handleSubmit,
     control,
+    reset: resetForm,
     setValue,
     formState: { errors },
   } = useForm<FormData>({
@@ -69,10 +70,12 @@ const ResetPassword = () => {
   const { isPending, mutate: submitResetRequest } = useResetPassword(
     () => {
       setSuccess(true);
+      resetForm();
       setErrorMessage("");
     },
     (errorMsg: string) => {
       setSuccess(false);
+      resetForm();
       setErrorMessage(errorMsg);
       setTimeout(() => {
         setErrorMessage("");

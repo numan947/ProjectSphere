@@ -1,15 +1,24 @@
-import { Box, Grid } from "@chakra-ui/react";
+import { Box, Button, Grid, HStack, useDisclosure } from "@chakra-ui/react";
 import FilterList from "../../../components/FilterList";
-import { FaFilter } from "react-icons/fa";
+import { FaFilter, FaPlus } from "react-icons/fa";
 import { TiTags } from "react-icons/ti";
 import ProjectCardList from "../../../components/ProjectCardList";
+import CreateProjectModal from "./CreateProjectModal";
 
 const ProjectHome = () => {
   const filters = ["All", "Active", "Completed"];
   const tags = ["Urgent", "High Priority", "Low Priority"];
 
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
-    <Grid templateColumns="1fr 4fr" height="100vh">
+    <Grid
+      templateColumns={{
+        sm: "1fr",
+        md: "1fr 4fr",
+      }}
+      height="100vh"
+    >
       {/* Aside Section - Sticky */}
       <Box
         position="sticky"
@@ -20,6 +29,19 @@ const ProjectHome = () => {
         overflowY="auto"
         p={4}
       >
+        <HStack mb={4} justifyContent="center">
+          <>
+            <Button
+              leftIcon={<FaPlus />}
+              colorScheme="linkedin"
+              onClick={onOpen}
+            >
+              Create Project
+            </Button>
+            <CreateProjectModal isOpen={isOpen} onClose={onClose} />
+          </>
+        </HStack>
+
         <FilterList
           title="Categories"
           filters={filters}

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../common/Layout.tsx";
 import LandingPage from "../common/LandingPage.tsx";
-import ProjectHome from "../domain/projects/pages/Home.tsx";
+import ProjectHome from "../domain/projects/pages/ProjectHome.tsx";
 import ActivateAccount from "../domain/auth/pages/ActivateAccount.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
 import ResetPassword from "../domain/auth/pages/ResetPassword.tsx";
