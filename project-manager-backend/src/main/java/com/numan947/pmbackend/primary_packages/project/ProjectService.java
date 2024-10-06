@@ -13,7 +13,7 @@ public interface ProjectService {
 
     ProjectShortResponse createProject(ProjectRequest projectRequest, Authentication connectedUser);
 
-    List<ProjectShortResponse> getAllProjectsOfUser(Authentication connectedUser, String category, String tag, int page, int size);
+    List<ProjectShortResponse> getAllProjectsOfUser(Authentication connectedUser, List<String>categories, List<String>tags, int page, int size);
 
     ProjectResponse getProjectById(String projectId, Authentication connectedUser);
 

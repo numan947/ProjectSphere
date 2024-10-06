@@ -19,7 +19,7 @@ public class ProjectMapper {
         Project p = Project.builder()
                 .name(projectRequest.name())
                 .description(projectRequest.description())
-                .category(projectRequest.category())
+                .categories(new ArrayList<>())
                 .tags(new ArrayList<>())
                 .owner(null)
                 .issues(new ArrayList<>())
@@ -27,6 +27,9 @@ public class ProjectMapper {
                 .build();
         if(projectRequest.id() != null) {
             p.setId(projectRequest.id());
+        }
+        if (projectRequest.categories() != null) {
+            p.getCategories().addAll(projectRequest.categories());
         }
         if (projectRequest.tags() != null) {
             p.getTags().addAll(projectRequest.tags());
@@ -39,7 +42,7 @@ public class ProjectMapper {
         return ProjectShortResponse.builder()
                 .id(project.getId())
                 .name(project.getName())
-                .category(project.getCategory())
+                .categories(project.getCategories())
                 .tags(project.getTags())
                 .memberCount(project.getTeamMembers().size())
                 .issueCount(project.getIssues().size())
@@ -52,7 +55,7 @@ public class ProjectMapper {
                 .id(project.getId())
                 .name(project.getName())
                 .description(project.getDescription())
-                .category(project.getCategory())
+                .categories(project.getCategories())
                 .tags(project.getTags())
                 .issues(project.getIssues().stream().map(issueMapper::toIssueResponse).toList())
                 .teamMembers(project.getTeamMembers().stream().map(userMapper::toBriefUserResponse).toList())
@@ -64,7 +67,7 @@ public class ProjectMapper {
         return ProjectResponse.builder()
                 .id(project.getId())
                 .name(project.getName())
-                .category(project.getCategory())
+                .categories(project.getCategories())
                 .tags(project.getTags())
                 .owner(userMapper.toBriefUserResponse(project.getOwner()))
                 .build();

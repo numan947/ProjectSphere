@@ -19,7 +19,10 @@ import java.util.List;
 public class Project extends BaseEntity {
     private String name;
     private String description;
-    private String category;
+
+    @ElementCollection
+    @CollectionTable(name = "_project_categories", joinColumns = @JoinColumn(name = "project_id"))
+    private List<String>categories;
 
     @ElementCollection
     @CollectionTable(name = "_project_tags", joinColumns = @JoinColumn(name = "project_id"))

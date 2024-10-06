@@ -4,11 +4,14 @@ import com.numan947.pmbackend.primary_packages.issue.Issue;
 import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.user.dto.UserResponse;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
     // this is the only method exposed to the controller
     UserResponse getUserProfile(String userId);
+    List<String>getAllTags(String userId);
+    List<String>getAllCategories(String userId);
 
     // these methods are used from other services
     Optional<User> findByEmail(String email);

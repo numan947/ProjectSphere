@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -20,6 +22,18 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserProfile(Authentication auth){
         User user = (User) auth.getPrincipal();
         return ResponseEntity.ok(userService.getUserProfile(user.getId()));
+    }
+
+    @GetMapping("/usable-tags")
+    public ResponseEntity<List<String>>getAllTags(Authentication auth){
+        User user = (User) auth.getPrincipal();
+        return ResponseEntity.ok(userService.getAllTags(user.getId()));
+    }
+
+    @GetMapping("/usable-categories")
+    public ResponseEntity<List<String>>getAllCategories(Authentication auth){
+        User user = (User) auth.getPrincipal();
+        return ResponseEntity.ok(userService.getAllCategories(user.getId()));
     }
 
 }

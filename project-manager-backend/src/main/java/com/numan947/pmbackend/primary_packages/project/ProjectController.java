@@ -35,13 +35,15 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<List<ProjectShortResponse>>getAllProjects(//tested
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String tag,
+            @RequestParam(required = false) List<String>categories,
+            @RequestParam(required = false) List<String>tags,
             @RequestParam(defaultValue = defaultPage) Integer page,
             @RequestParam(defaultValue = defaultPageSize) Integer size,
             Authentication auth
     ){
-        return ResponseEntity.ok(projectService.getAllProjectsOfUser(auth, category, tag, page, size));
+        if (categories == null) categories = List.of();
+        if (tags == null) tags = List.of();
+        return ResponseEntity.ok(projectService.getAllProjectsOfUser(auth, categories, tags, page, size));
     }
 
     @GetMapping("/{project-id}")

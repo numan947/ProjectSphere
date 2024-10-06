@@ -8,12 +8,11 @@ import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.primary_packages.project.ProjectMapper;
 import com.numan947.pmbackend.primary_packages.project.dto.ProjectResponse;
 import com.numan947.pmbackend.user.dto.UserResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void addProjectToUser(String userId, Project project) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getProjects().add(project);
         user.setNumberOfProjects(user.getNumberOfProjects() + 1);
         userRepository.save(user);
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void removeProjectFromUser(String userId, Project project) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getProjects().removeIf(p -> p.getId().equals(project.getId()));
         user.setNumberOfProjects(user.getNumberOfProjects() - 1);
         userRepository.save(user);
@@ -52,35 +51,35 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void addIssueToUser(String userId, Issue issue) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getCreatedIssues().add(issue);
         userRepository.save(user);
     }
 
     @Override
     public void removeIssueFromUser(String userId, Issue issue) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getCreatedIssues().removeIf(i -> i.getId().equals(issue.getId()));
         userRepository.save(user);
     }
 
     @Override
     public void assignIssueToUser(String userId, Issue issue) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getAssignedIssues().add(issue);
         userRepository.save(user);
     }
 
     @Override
     public void unassignIssueFromUser(String userId, Issue issue) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         user.getAssignedIssues().removeIf(i -> i.getId().equals(issue.getId()));
         userRepository.save(user);
     }
 
     @Override
     public UserResponse getUserProfile(String userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new OperationNotPermittedException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         List<ProjectResponse> ownProjects = new ArrayList<>();
         List<ProjectResponse> otherProjects = new ArrayList<>();
         for (Project project : user.getProjects()) {
@@ -94,5 +93,31 @@ public class UserServiceImpl implements UserService{
         List<IssueShortResponse> createdIssues = user.getCreatedIssues().stream().map(issueMapper::toIssueShortResponse).toList();
         List<IssueShortResponse> assignedIssues = user.getAssignedIssues().stream().map(issueMapper::toIssueShortResponse).toList();
         return userMapper.toUserProfileResponse(user, ownProjects, otherProjects, createdIssues, assignedIssues);
+    }
+
+    @Override
+    public List<String> getAllTags(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        Set<String> tags = new HashSet<>();
+        for (Project project : user.getProjects()) {
+            tags.addAll(project.getTags());
+        }
+        for (Issue issue : user.getCreatedIssues()) {
+            tags.addAll(issue.getTags());
+        }
+        for (Issue issue : user.getAssignedIssues()) {
+            tags.addAll(issue.getTags());
+        }
+        return new ArrayList<>(tags);
+    }
+
+    @Override
+    public List<String> getAllCategories(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        Set<String> categories = new HashSet<>();
+        for (Project project : user.getProjects()) {
+            categories.addAll(project.getCategories());
+        }
+        return new ArrayList<>(categories);
     }
 }

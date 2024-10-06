@@ -41,17 +41,17 @@ public class ProjectServiceImpl implements ProjectService{
 
     // return all projects that the user is a member of -> owner or team member
     @Override
-    public List<ProjectShortResponse> getAllProjectsOfUser(Authentication connectedUser, String category, String tag, int page, int size) {
+    public List<ProjectShortResponse> getAllProjectsOfUser(Authentication connectedUser, List<String> categories, List<String>tags, int page, int size) {
         // TODO: Implement pagination later here
         User user = (User) connectedUser.getPrincipal();
         List<Project> projects = projectRepository.findAllByTeamMembersContainingOrOwnerId(user.getId(), user.getId());
 
         //filter by category and tag
-        if(category != null && !category.isEmpty()){
-            projects.removeIf(project -> !project.getCategory().equals(category));
+        if (!categories.isEmpty()) {
+            projects = projects.stream().filter(project->project.getCategories().stream().anyMatch(categories::contains)).toList();
         }
-        if(tag != null && !tag.isEmpty()){
-            projects.removeIf(project -> !project.getTags().contains(tag));
+        if (!tags.isEmpty()) {
+            projects = projects.stream().filter(project -> project.getTags().stream().anyMatch(tags::contains)).toList();
         }
 
         return projects.stream().map(projectMapper::toProjectShortResponse).toList();
@@ -94,7 +94,7 @@ public class ProjectServiceImpl implements ProjectService{
         }
         project.setName(projectRequest.name());
         project.setDescription(projectRequest.description());
-        project.setCategory(projectRequest.category());
+        project.setCategories(projectRequest.categories());
         project.setTags(projectRequest.tags());
         projectRepository.save(project);
         return projectMapper.toProjectShortResponse(project);

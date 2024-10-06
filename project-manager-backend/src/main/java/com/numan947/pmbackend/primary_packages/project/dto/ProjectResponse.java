@@ -17,7 +17,7 @@ public class ProjectResponse {
     private String id;
     private String name;
     private String description;
-    private String category;
+    private List<String> categories;
     private List<String> tags;
     private List<IssueResponse>issues;
     private List<UserResponse>teamMembers;

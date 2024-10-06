@@ -16,7 +16,7 @@ public record ProjectRequest(
 
         String description,
 
-        String category,
+        List<String> categories,
 
         List<String> tags
 ) {

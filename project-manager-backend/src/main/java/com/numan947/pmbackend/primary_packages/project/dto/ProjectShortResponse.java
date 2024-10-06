@@ -35,7 +35,7 @@ public class ProjectShortResponse {
     private String id;
     private String name;
     private String description;
-    private String category;
+    private List<String>categories;
     private List<String> tags;
     private Integer memberCount;
     private Integer issueCount;
