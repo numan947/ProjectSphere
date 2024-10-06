@@ -1,8 +1,6 @@
-import { Text } from "@chakra-ui/layout";
 import {
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
@@ -12,9 +10,18 @@ import CreateProjectForm from "./CreateProjectForm";
 interface CreateProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onCreatedSuccess: () => void;
+  onCreatedError: (msg: string) => void;
+  onCancelled: () => void;
 }
 
-const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
+const CreateProjectModal = ({
+  isOpen,
+  onClose,
+  onCancelled,
+  onCreatedError,
+  onCreatedSuccess,
+}: CreateProjectModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -24,12 +31,18 @@ const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
     >
       {/* Content */}
       <ModalOverlay />
-      <ModalCloseButton />
-      <ModalContent>
+      <ModalContent
+        maxWidth={{ base: "90%", md: "600px", lg: "800px" }} // Adjust maxWidth based on screen size
+        minWidth={{ base: "80%", md: "400px" }} // Adjust minWidth based on screen size
+        minHeight={{ base: "200px", md: "300px" }} // Adjust minHeight based on screen size
+      >
         <ModalHeader>Create Project</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
-          <CreateProjectForm />
+          <CreateProjectForm
+            onCancelled={onCancelled}
+            onCreatedError={onCreatedError}
+            onCreatedSuccess={onCreatedSuccess}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

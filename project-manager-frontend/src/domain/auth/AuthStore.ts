@@ -29,8 +29,8 @@ const useAuthStore = create<AuthStore>()(
   )
 
 
-if (process.env.NODE_ENV === 'development')
-    mountStoreDevtool('Counter Store', useAuthStore);
+// if (process.env.NODE_ENV === 'development')
+//     mountStoreDevtool('Counter Store', useAuthStore);
   
 
 export default useAuthStore;

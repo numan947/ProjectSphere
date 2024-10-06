@@ -1,15 +1,47 @@
 import { Box, Button, Grid, HStack, useDisclosure } from "@chakra-ui/react";
-import FilterList from "../../../components/FilterList";
+import FilterList from "./FilterList";
 import { FaFilter, FaPlus } from "react-icons/fa";
 import { TiTags } from "react-icons/ti";
-import ProjectCardList from "../../../components/ProjectCardList";
+import ProjectCardList from "./ProjectCardList";
 import CreateProjectModal from "./CreateProjectModal";
+import { useCategories, useTags } from "../hooks/useMetadata";
+import { useFetchProjectShortResponses } from "../hooks/useProjects";
 
 const ProjectHome = () => {
-  const filters = ["All", "Active", "Completed"];
-  const tags = ["Urgent", "High Priority", "Low Priority"];
+  const {
+    data: categories,
+    refetch: refetchCategories,
+    isLoading: categoriesLoading,
+  } = useCategories();
+  const {
+    data: tags,
+    refetch: refetchTags,
+    isLoading: tagsLoading,
+  } = useTags();
+
+  const {
+    data: projects,
+    refetch: refetchProjects,
+    isLoading: projectsLoading,
+  } = useFetchProjectShortResponses();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const onCreatedSuccess = () => {
+    refetchCategories();
+    refetchTags();
+    refetchProjects();
+    console.log("Project created successfully");
+    onClose();
+  };
+  const onCancelled = () => {
+    console.log("Project creation cancelled");
+    onClose();
+  };
+  const onCreatedError = (msg: string) => {
+    console.log("Project creation failed" + msg);
+    onClose();
+  };
 
   return (
     <Grid
@@ -38,19 +70,29 @@ const ProjectHome = () => {
             >
               Create Project
             </Button>
-            <CreateProjectModal isOpen={isOpen} onClose={onClose} />
+            <CreateProjectModal
+              isOpen={isOpen}
+              onClose={onClose}
+              onCancelled={onCancelled}
+              onCreatedError={onCreatedError}
+              onCreatedSuccess={onCreatedSuccess}
+            />
           </>
         </HStack>
 
         <FilterList
+          colorScheme="purple"
           title="Categories"
-          filters={filters}
+          filters={categories || []}
+          isloading={categoriesLoading}
           orientation="column"
           icon={<FaFilter />}
         />
         <FilterList
           title="Tags"
-          filters={tags}
+          colorScheme="blue"
+          filters={tags || []}
+          isloading={tagsLoading}
           orientation="column"
           icon={<TiTags />}
         />
@@ -62,7 +104,10 @@ const ProjectHome = () => {
         height="100vh"
         p={4}
       >
-        <ProjectCardList />
+        <ProjectCardList
+          projects={projects || []}
+          isLoading={projectsLoading}
+        />
       </Box>
     </Grid>
   );

@@ -7,7 +7,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ProjectShortResponse } from "../entities/project-short-response";
+import { ProjectShortResponse } from "../Entities";
 
 interface ProjectCardProps {
   project: ProjectShortResponse;
@@ -32,10 +32,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </CardHeader>
       <CardBody mt={-34}>
         <VStack spacing={1} align={"start"}>
-          <Text fontWeight="bold">Description:</Text>
-          <Text>{project.description}</Text>
           <Text fontWeight="bold">
-            Category: <Badge colorScheme="purple">{project.category}</Badge>
+            Categories:{" "}
+            {project.categories.map((category, index) => (
+              <Badge key={index} colorScheme="purple" mr={1}>
+                {category}
+              </Badge>
+            ))}
           </Text>
           <Text fontWeight="bold">
             Tags:{" "}
