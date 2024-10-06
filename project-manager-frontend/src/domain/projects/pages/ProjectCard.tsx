@@ -1,18 +1,33 @@
 import {
   Badge,
+  Button,
   Card,
   CardBody,
   CardHeader,
   Divider,
+  IconButton,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { ProjectShortResponse } from "../Entities";
+import { AddIcon } from "@chakra-ui/icons";
+import EmailAddressModal from "../../../common/EmailAddressModal";
+import useCreateInvitations from "../../invitation/hooks/useCreateInvitations";
 
 interface ProjectCardProps {
   project: ProjectShortResponse;
 }
 const ProjectCard = ({ project }: ProjectCardProps) => {
+  const {
+    isOpen: invitationModalIsOpen,
+    onClose: invitationModalOnClose,
+    onOpen: invidationModalOnOpen,
+  } = useDisclosure();
+
+  const { mutate: createInvitations, isPending: sendingInvitation } =
+    useCreateInvitations();
+
   return (
     <Card padding={1} margin={1}>
       <CardHeader>
@@ -54,12 +69,46 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <Badge colorScheme="orange" variant="outline">
               {project.memberCount}
             </Badge>
+            <>
+              <IconButton
+                size="xs"
+                icon={<AddIcon />}
+                aria-label="Invite member"
+                variant="ghost"
+                colorScheme="orange"
+                isRound
+                onClick={invidationModalOnOpen}
+              />
+              <EmailAddressModal
+                multi={true}
+                isOpen={invitationModalIsOpen}
+                onClose={invitationModalOnClose}
+                headerText="Invite Member"
+                placeholder="Enter email addresses"
+                bodyText="Enter the email addresses of the member you want to invite, separated by commas."
+                submitButtonText="Invite"
+                onSubmit={(emails: string) => {
+                  createInvitations({
+                    projectId: project.id,
+                    emails: emails.split(",").map((email) => email.trim()),
+                  });
+                }}
+              />
+            </>
           </Text>
           <Text fontWeight="bold">
             Issues:{" "}
             <Badge colorScheme="green" variant="outline">
               {project.issueCount}
             </Badge>
+            <IconButton
+              size="xs"
+              icon={<AddIcon />}
+              aria-label="Create new issue"
+              variant="ghost"
+              colorScheme="green"
+              isRound
+            />
           </Text>
         </VStack>
       </CardBody>

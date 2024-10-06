@@ -31,7 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useLogin from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
 import useRegister from "../hooks/useRegister";
-import SendCodeModal from "./SendCodeModal";
+import EmailAddressModal from "../../../common/EmailAddressModal";
 import { useResetPasswordRequest } from "../hooks/useResetPasswordRequest";
 
 const defaultValues = {
@@ -392,7 +392,8 @@ const LoginOrRegister = ({ isOpen, onClose }: LoginOrRegisterProps) => {
                   >
                     Reset!
                   </Button>
-                  <SendCodeModal
+                  <EmailAddressModal
+                    submitButtonText="Send Code"
                     isOpen={prDialogOpen}
                     onClose={() => {
                       prDialogClose();

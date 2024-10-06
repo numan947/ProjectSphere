@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -33,40 +34,36 @@ public class InvitationServiceImpl implements InvitationService{
 
     @Override
     @Transactional
-    public void createInvitation(String projectId, String userEmail, Authentication auth) throws MessagingException {
+    public void createInvitation(String projectId, List<String> emails, Authentication auth) throws MessagingException {
         User user = (User) auth.getPrincipal();
         Project project = projectService.findProjectByIdAndOwnerId(projectId, user.getId()).orElseThrow(
                 () -> new EntityNotFoundException("Project not found")
         ); // check if the project exists and the user is the owner of the project at the same time
 
-        //check if the user is already a member of the project
-        if (project.getTeamMembers().stream().anyMatch(member -> member.getEmail().equals(userEmail))) {
-            throw new OperationNotPermittedException("User is already a member of the project");
-        }
+        for (String userEmail: emails){
+            //check if the user is already a member of the project
+            if (project.getTeamMembers().stream().anyMatch(member -> member.getEmail().equals(userEmail))) {
+                // user is already a member of the project -- skip
+                continue;
+            }
 
-        //check if the user is already invited to the project and the invitation is not expired
-        Invitation existingInvitation = invitationRepository.findInvitationByProjectIdAndUserEmail(projectId, userEmail).orElse(null);
-        if (existingInvitation != null) {
-            //delete the existing invitation as we are going to create a new one ->
-            //  1. if the user has an expired invitation
-            //  2. if the user has an active invitation and the owner wants to send a new one
-            // 3. if the user joined the project and then left the project and the owner wants to send a new invitation
-            invitationRepository.delete(existingInvitation);
-        }
+            //check if the user is already invited to the project and the invitation is not expired
+            invitationRepository.findInvitationByProjectIdAndUserEmail(projectId, userEmail).ifPresent(invitationRepository::delete);
 
-        //create the invitation
-        Invitation invitation = new Invitation();
-        invitation.setInvitationCode(generateInvitationCode(invitationCodeLength));
-        invitation.setUserEmail(userEmail);
-        invitation.setProjectId(projectId);
-        invitation.setExpiryDate(LocalDateTime.now().plusHours(24)); // 24 hours
-        invitation.setProjectName(project.getName());
-        invitationRepository.save(invitation);
-        emailService.sendInvitationEmail(
-                userEmail,
-                invitation.getInvitationCode(),
-                project.getName(),
-                invitationAcceptUrl+"/"+projectId);
+            //create the invitation
+            Invitation invitation = new Invitation();
+            invitation.setInvitationCode(generateInvitationCode(invitationCodeLength));
+            invitation.setUserEmail(userEmail);
+            invitation.setProjectId(projectId);
+            invitation.setExpiryDate(LocalDateTime.now().plusHours(24)); // 24 hours
+            invitation.setProjectName(project.getName());
+            invitationRepository.save(invitation);
+            emailService.sendInvitationEmail(
+                    userEmail,
+                    invitation.getInvitationCode(),
+                    project.getName(),
+                    invitationAcceptUrl+"/"+projectId);
+        }
     }
 
 

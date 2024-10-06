@@ -16,9 +16,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-const SendCodeModalSchema = z.object({
+const SingleEmailModalSchema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
 });
+const MultipleEmailModalSchema = z.object({
+  email: z
+    .string()
+    .refine(
+      (emailValue) =>
+        emailValue
+          .split(",")
+          .every((item) => z.string().email().safeParse(item).success),
+      {
+        message: "One or more email addresses are invalid",
+      }
+    ),
+});
+
 const defaultValues = {
   email: "",
 };
@@ -26,12 +40,18 @@ const defaultValues = {
 interface SendCodeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  headerText: string;
-  bodyText: string;
-  onSubmit?: (data: any) => void;
+  headerText?: string;
+  bodyText?: string;
+  submitButtonText: string;
+  multi?: boolean;
+  placeholder?: string;
+  onSubmit: (data: any) => void;
 }
 
-const SendCodeModal = ({
+const EmailAddressModal = ({
+  multi = false,
+  submitButtonText,
+  placeholder,
   isOpen,
   onClose,
   headerText,
@@ -44,7 +64,9 @@ const SendCodeModal = ({
     reset,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(SendCodeModalSchema),
+    resolver: zodResolver(
+      multi ? MultipleEmailModalSchema : SingleEmailModalSchema
+    ),
     defaultValues: defaultValues,
   });
 
@@ -63,10 +85,10 @@ const SendCodeModal = ({
       <Modal isOpen={isOpen} onClose={handleOnClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{headerText}</ModalHeader>
+          {headerText && <ModalHeader>{headerText}</ModalHeader>}
           <ModalCloseButton />
           <ModalBody>
-            <Text pb={3}>{bodyText}</Text>
+            {bodyText && <Text pb={3}>{bodyText}</Text>}
             <form onSubmit={handleSubmit(onSubmitRequest)}>
               <FormControl isInvalid={!!errors.email}>
                 <Controller
@@ -75,7 +97,11 @@ const SendCodeModal = ({
                   render={({ field }) => (
                     <Input
                       {...field}
-                      placeholder="Enter a valid email address"
+                      placeholder={
+                        placeholder
+                          ? placeholder
+                          : "Enter a valid email address"
+                      }
                     />
                   )}
                 />
@@ -91,7 +117,7 @@ const SendCodeModal = ({
                   Cancel
                 </Button>
                 <Button variant="outline" colorScheme="blue" type="submit">
-                  Submit Request
+                  {submitButtonText}
                 </Button>
               </HStack>
             </form>
@@ -102,4 +128,4 @@ const SendCodeModal = ({
   );
 };
 
-export default SendCodeModal;
+export default EmailAddressModal;

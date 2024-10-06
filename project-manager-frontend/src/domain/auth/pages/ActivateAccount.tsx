@@ -11,7 +11,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import SendCodeModal from "./SendCodeModal";
+import EmailAddressModal from "../../../common/EmailAddressModal";
 import useAuthStore from "../AuthStore";
 import { Navigate } from "react-router-dom";
 import { useRequestActivationCode } from "../hooks/useRequestActivationCode";
@@ -129,7 +129,8 @@ const ActivateAccount = () => {
             <AlertDescription>{errorMessage}</AlertDescription>
           </Alert>
         )}
-        <SendCodeModal
+        <EmailAddressModal
+          submitButtonText="Resend Code"
           isOpen={isOpen}
           onSubmit={(email: string) => {
             resendActivationCode(email);

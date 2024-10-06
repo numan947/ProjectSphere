@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/invitation")
@@ -21,9 +23,9 @@ public class InvitationController {
     @PostMapping("/create")
     public ResponseEntity<?> createInvitation( // tested
             @RequestParam("project-id") @NotEmpty @NotNull @NotBlank String projectId,
-            @RequestParam("user-email") @Email @NotBlank @NotEmpty @NotNull String userEmail,
+            @RequestParam("emails") @NotEmpty @NotNull List<@NotBlank @Email String> emails,
             Authentication auth) throws MessagingException {
-        invitationService.createInvitation(projectId, userEmail, auth);
+        invitationService.createInvitation(projectId, emails, auth);
         return ResponseEntity.ok().build();
     }
 

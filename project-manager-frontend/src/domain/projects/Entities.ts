@@ -1,5 +1,5 @@
 export interface ProjectShortResponse {
-    id: number;
+    id: string;
     name: string;
     categories: string[];
     memberCount: number;
