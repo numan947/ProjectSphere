@@ -6,6 +6,7 @@ import ProjectCardList from "./ProjectCardList";
 import CreateProjectModal from "./CreateProjectModal";
 import { useCategories, useTags } from "../hooks/useMetadata";
 import { useFetchProjectShortResponses } from "../hooks/useProjects";
+import InvitationList from "../../invitation/pages/InvitationList";
 
 const ProjectHome = () => {
   const {
@@ -50,6 +51,7 @@ const ProjectHome = () => {
         md: "1fr 4fr",
       }}
       height="100vh"
+      minWidth={{ sm: "100%", md: "80%" }}
     >
       {/* Aside Section - Sticky */}
       <Box
@@ -96,6 +98,7 @@ const ProjectHome = () => {
           orientation="column"
           icon={<TiTags />}
         />
+        <InvitationList />
       </Box>
 
       {/* Main Section */}

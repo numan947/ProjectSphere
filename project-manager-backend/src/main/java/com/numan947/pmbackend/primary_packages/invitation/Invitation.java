@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "_invitations")
 public class Invitation extends BaseEntity {
-    private String invitationCode;
+    private String invitationCode; // TODO: I think this is redundant, as we can use the id as the invitation code.
     private String userEmail;
     private String projectId;
     private String projectName;

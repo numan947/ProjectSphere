@@ -1,6 +1,7 @@
 package com.numan947.pmbackend.primary_packages.invitation;
 
 import com.numan947.pmbackend.exception.OperationNotPermittedException;
+import com.numan947.pmbackend.primary_packages.invitation.dto.InvitationResponse;
 import com.numan947.pmbackend.primary_packages.project.Project;
 import com.numan947.pmbackend.email.EmailService;
 import com.numan947.pmbackend.primary_packages.project.ProjectService;
@@ -33,7 +34,7 @@ public class InvitationServiceImpl implements InvitationService{
 
 
     @Override
-    @Transactional
+    @Transactional // TODO: find other places where @Transactional is needed
     public void createInvitation(String projectId, List<String> emails, Authentication auth) throws MessagingException {
         User user = (User) auth.getPrincipal();
         Project project = projectService.findProjectByIdAndOwnerId(projectId, user.getId()).orElseThrow(
@@ -69,10 +70,10 @@ public class InvitationServiceImpl implements InvitationService{
 
     @Override
     @Transactional
-    public void acceptInvitation(String projectId, String invitationCode, Authentication auth) {
+    public void acceptInvitation(String invitationId, Authentication auth) {
         User user = (User) auth.getPrincipal();
         // validate invitation
-        Invitation invitation = invitationRepository.findInvitationByProjectIdAndInvitationCode(projectId, invitationCode).orElseThrow(
+        Invitation invitation = invitationRepository.findById(invitationId).orElseThrow(
                 () -> new EntityNotFoundException("Invitation not found")
         ); // check if the invitation exists and the project id is correct
 
@@ -83,13 +84,14 @@ public class InvitationServiceImpl implements InvitationService{
             throw new OperationNotPermittedException("Invitation has expired");
         } // check if the invitation has expired
 
-        projectService.addTeamMemberToProject(projectId, user.getId()); // save the project
+        projectService.addTeamMemberToProject(invitation.getProjectId(), user.getId()); // save the project
         invitation.setJoinDate(LocalDateTime.now());
         invitationRepository.save(invitation);// save the invitation
     }
 
     @Override
     public void removeMemberFromProject(String projectId, String userId, Authentication auth) {
+        // TODO: refactor this method from here to the project service, this should not be here
         // 1. you can remove a member from a project only if you are the owner of the project
         // 2. if you are a member of the project -> you can remove yourself from the project
         // 3. exception-> owner cannot be removed
@@ -120,6 +122,39 @@ public class InvitationServiceImpl implements InvitationService{
                 throw new OperationNotPermittedException("Invalid operation");
             }
         }
+    }
+
+    @Override
+    public List<InvitationResponse> getPendingInvites(Authentication auth) {
+        User user = (User) auth.getPrincipal();
+        return invitationRepository.findAllPendingInvitationsByUserEmail(user.getEmail()).stream()
+                .map(invitation -> new InvitationResponse(
+                        invitation.getId(),
+                        invitation.getInvitationCode(),
+                        invitation.getUserEmail(),
+                        invitation.getProjectId(),
+                        invitation.getProjectName(),
+                        invitation.getExpiryDate(),
+                        invitation.getJoinDate(),
+                        invitation.getLeaveDate()
+                ))
+                .toList();
+    }
+
+    @Override
+    public void rejectInvitation(String invitationId, Authentication auth) {
+        User user = (User) auth.getPrincipal();
+        if (invitationRepository.findById(invitationId).isEmpty()) {
+            throw new EntityNotFoundException("Invitation not found");
+        }
+
+        Invitation invitation = invitationRepository.findById(invitationId).get();
+        if (!Objects.equals(invitation.getUserEmail(), user.getEmail())) {
+            throw new OperationNotPermittedException("User email does not match the invitation email");
+        } // check if the user email matches the invitation email
+
+        // delete the invitation == reject the invitation
+        invitationRepository.delete(invitation);
     }
 
     private String generateInvitationCode(Integer codeLength) {

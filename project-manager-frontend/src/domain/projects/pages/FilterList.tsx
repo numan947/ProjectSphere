@@ -10,6 +10,9 @@ import {
   Flex,
   Skeleton,
   Stack,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   Text,
 } from "@chakra-ui/react";
 
@@ -49,7 +52,11 @@ const FilterList = ({
                 {filters.map((filter, index) => (
                   <Checkbox key={index} value={filter} pl={2}>
                     <Box display="flex" alignItems="center">
-                      <Badge colorScheme={colorScheme}>{filter}</Badge>
+                      {/* <Badge colorScheme={colorScheme}>{filter}</Badge> */}
+                      <Tag size="md" key={index} colorScheme={colorScheme}>
+                        <TagLabel>{filter}</TagLabel>
+                        {/* TODO: May be add a close button here?? */}
+                      </Tag>
                     </Box>
                   </Checkbox>
                 ))}

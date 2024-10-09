@@ -5,6 +5,7 @@ import ProjectHome from "../domain/projects/pages/ProjectHome.tsx";
 import ActivateAccount from "../domain/auth/pages/ActivateAccount.tsx";
 import PrivateRoutes from "./PrivateRoutes.tsx";
 import ResetPassword from "../domain/auth/pages/ResetPassword.tsx";
+import AcceptInvitation from "../domain/invitation/pages/AcceptInvitation.tsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <div>Profile</div>,
+          },
+          {
+            path: "accept-invitation",
+            element: <AcceptInvitation />,
           },
         ],
       },

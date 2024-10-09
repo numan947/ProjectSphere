@@ -1,5 +1,6 @@
 package com.numan947.pmbackend.primary_packages.invitation;
 
+import com.numan947.pmbackend.primary_packages.invitation.dto.InvitationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.constraints.Email;
@@ -20,18 +21,39 @@ import java.util.List;
 public class InvitationController {
     private final InvitationService invitationService;
 
+    @GetMapping("/get-pending-invites")
+    public ResponseEntity<List<InvitationResponse>> getPendingInvites(Authentication auth) {
+        return ResponseEntity.ok(invitationService.getPendingInvites(auth));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createInvitation( // tested
             @RequestParam("project-id") @NotEmpty @NotNull @NotBlank String projectId,
             @RequestParam("emails") @NotEmpty @NotNull List<@NotBlank @Email String> emails,
             Authentication auth) throws MessagingException {
+        if (projectId == null || emails == null) {
+            return ResponseEntity.badRequest().build();
+        }
         invitationService.createInvitation(projectId, emails, auth);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/accept/{project-id}") // tested
-    public ResponseEntity<?> acceptInvitation(@PathVariable("project-id") String projectId, @RequestParam("invitation-code") String invitationCode, Authentication auth) {
-        invitationService.acceptInvitation(projectId, invitationCode, auth);
+    @PostMapping("/accept") // tested
+    public ResponseEntity<?> acceptInvitation(@RequestParam("invitation-id") String invitationId, Authentication auth) {
+        if (invitationId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        invitationService.acceptInvitation(invitationId, auth);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reject")
+    public ResponseEntity<?> rejectInvitation(@RequestParam("invitation-id") String invitationId, Authentication auth) {
+        if (invitationId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        invitationService.rejectInvitation(invitationId, auth);
         return ResponseEntity.ok().build();
     }
 

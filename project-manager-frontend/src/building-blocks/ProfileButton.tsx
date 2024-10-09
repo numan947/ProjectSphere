@@ -10,12 +10,16 @@ import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import { GrTasks } from "react-icons/gr";
 import useAuthStore from "../domain/auth/AuthStore";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ProfileButton = () => {
   const { logout, userFullName } = useAuthStore();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const handleLogOut = () => {
     logout();
+    // queryClient.invalidateQueries();
+    queryClient.clear();
     navigate("/");
   };
   return (

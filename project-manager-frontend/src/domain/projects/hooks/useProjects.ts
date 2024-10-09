@@ -27,5 +27,8 @@ export const useFetchProjectShortResponses = () => {
             const response = await ProjectClient.getAllProjectsShort();
             return response.data;
         },
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: true,
+        staleTime: 1000 * 60 * 20
     });
 }
